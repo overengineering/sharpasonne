@@ -13,6 +13,6 @@ namespace Sharpasonne.BoardModels
         BottomLeft,
         LeftBottom,
         Left,
-        LeftTop
+        LeftTop,
     }
 }
