@@ -1,3 +1,6 @@
-class Tile {
+namespace Sharpasonne
+{
+    internal class Tile {
     
+    }
 }

@@ -1,4 +1,7 @@
-interface IRule
+namespace Sharpasonne
 {
-    bool match(Board board, Placement placement, Tile tile);
+    internal interface IRule
+    {
+        bool Match(Board board, Placement placement, Tile tile);
+    }
 }

@@ -1,5 +1,5 @@
-namespace Sharpassone {
-    class Engine {
+namespace Sharpasonne {
+    internal class Engine {
         Board Board { get; set; }
     }
 }
