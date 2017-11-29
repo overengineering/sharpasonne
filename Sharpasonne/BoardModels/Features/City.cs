@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace Sharpasonne.BoardModels
+namespace Sharpasonne.BoardModels.Features
 {
     class City : IFeature
     {

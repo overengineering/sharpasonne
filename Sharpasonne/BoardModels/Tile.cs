@@ -4,6 +4,6 @@ namespace Sharpasonne.BoardModels
 {
     internal class Tile
     {
-        public IImmutableList<IFeature> Features;
+        public IImmutableList<IFeature> Features { get; }
     }
 }
