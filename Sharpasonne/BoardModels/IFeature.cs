@@ -6,9 +6,4 @@ namespace Sharpasonne.BoardModels
     {
         IImmutableSet<Segment> Connections { get; }
     }
-
-    class Monastery : IFeature
-    {
-        public IImmutableSet<Segment> Connections { get; }
-    }
 }

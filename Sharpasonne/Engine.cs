@@ -1,4 +1,6 @@
-namespace Sharpasonne.BoardModels
+using Sharpasonne.BoardModels;
+
+namespace Sharpasonne
 {
     internal class Engine
     {

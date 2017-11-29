@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 
-namespace Sharpasonne.BoardModels
+namespace Sharpasonne.BoardModels.Features
 {
     internal class Road : IFeature
     {
