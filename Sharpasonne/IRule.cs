@@ -1,3 +1,5 @@
+using Sharpasonne.BoardModels;
+
 namespace Sharpasonne
 {
     internal interface IRule
