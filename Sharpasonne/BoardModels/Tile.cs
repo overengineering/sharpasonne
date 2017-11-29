@@ -1,6 +1,7 @@
 namespace Sharpasonne.BoardModels
 {
-    internal class Tile {
+    internal class Tile
+    {
     
     }
 }

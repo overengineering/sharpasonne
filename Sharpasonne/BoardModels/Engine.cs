@@ -1,5 +1,7 @@
-namespace Sharpasonne.BoardModels {
-    internal class Engine {
+namespace Sharpasonne.BoardModels
+{
+    internal class Engine
+    {
         Board Board { get; set; }
     }
 }
