@@ -9,23 +9,11 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/bin/Debug/<target-framework>/<project-name.dll>",
+            "program": "${workspaceRoot}/bin/Debug/netcoreapp2.0/sharpasonne.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": false,
             "console": "internalConsole"
-        },
-        {
-            "name": ".NET Core Launch (console)",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/<insert-target-framework-here>/<insert-project-name-here>.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart"
         },
         {
             "name": ".NET Core Launch (web)",
