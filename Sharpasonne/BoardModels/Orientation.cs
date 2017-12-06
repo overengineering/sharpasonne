@@ -1,6 +1,6 @@
 namespace Sharpasonne.BoardModels
 {
-    internal enum Orientation
+    public enum Orientation
     {
         Top,
         Right,

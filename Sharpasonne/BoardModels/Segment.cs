@@ -1,6 +1,6 @@
 namespace Sharpasonne.BoardModels
 {
-    internal enum Segment
+    public enum Segment
     {
         TopLeft,
         Top,

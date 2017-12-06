@@ -2,7 +2,7 @@
 
 namespace Sharpasonne.BoardModels
 {
-    internal interface IFeature
+    public interface IFeature
     {
         IImmutableSet<Segment> Connections { get; }
     }

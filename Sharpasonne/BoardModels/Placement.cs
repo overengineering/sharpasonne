@@ -1,8 +1,14 @@
 namespace Sharpasonne.BoardModels
 {
-    internal class Placement
+    public class Placement
     {
         public Tile Tile { get; }
         public Orientation Orientation { get; }
+
+        public Placement(Tile tile, Orientation orientation)
+        {
+            Tile = tile;
+            Orientation = orientation;
+        }
     }
 }

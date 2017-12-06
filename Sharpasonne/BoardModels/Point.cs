@@ -1,6 +1,6 @@
 namespace Sharpasonne.BoardModels
 {
-    internal struct Point
+    public struct Point
     {
         public int X { get; }
         public int Y { get; }
