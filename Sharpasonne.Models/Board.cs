@@ -1,8 +1,7 @@
 using System.Collections.Immutable;
-using System.ComponentModel;
 using Optional;
 
-namespace Sharpasonne.BoardModels
+namespace Sharpasonne.Models
 {
     public class Board
     {

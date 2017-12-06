@@ -1,9 +1,10 @@
 ﻿using System.Collections.Immutable;
 
-namespace Sharpasonne.BoardModels.Features
+namespace Sharpasonne.Models.Features
 {
-    class Monastery : IFeature
+    class City : IFeature
     {
         public IImmutableSet<Segment> Connections { get; }
+        public bool HasShield { get; }
     }
 }

@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharpasonne", "Sharpasonne\Sharpasonne.csproj", "{26EBA410-0034-4BF2-B797-7BB7FE05B2D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpasonne.Tests", "Sharpasonne.Tests\Sharpasonne.Tests.csproj", "{EB491BF7-7B47-4605-87F9-888D1D93ECC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharpasonne.Tests", "Sharpasonne.Tests\Sharpasonne.Tests.csproj", "{EB491BF7-7B47-4605-87F9-888D1D93ECC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpasonne.Models", "Sharpasonne.Models\Sharpasonne.Models.csproj", "{D02FF6B4-1CAA-4FE8-B196-D77DAB9C2D2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EB491BF7-7B47-4605-87F9-888D1D93ECC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB491BF7-7B47-4605-87F9-888D1D93ECC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB491BF7-7B47-4605-87F9-888D1D93ECC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D02FF6B4-1CAA-4FE8-B196-D77DAB9C2D2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D02FF6B4-1CAA-4FE8-B196-D77DAB9C2D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D02FF6B4-1CAA-4FE8-B196-D77DAB9C2D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D02FF6B4-1CAA-4FE8-B196-D77DAB9C2D2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

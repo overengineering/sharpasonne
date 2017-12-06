@@ -1,4 +1,4 @@
-using Sharpasonne.BoardModels;
+using Sharpasonne.Models;
 
 namespace Sharpasonne
 {

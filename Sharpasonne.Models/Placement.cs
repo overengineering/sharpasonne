@@ -1,4 +1,4 @@
-namespace Sharpasonne.BoardModels
+namespace Sharpasonne.Models
 {
     public class Placement
     {

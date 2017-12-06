@@ -1,8 +1,8 @@
 ﻿using System.Collections.Immutable;
 
-namespace Sharpasonne.BoardModels.Features
+namespace Sharpasonne.Models.Features
 {
-    class Field : IFeature
+    class Monastery : IFeature
     {
         public IImmutableSet<Segment> Connections { get; }
     }

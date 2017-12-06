@@ -1,6 +1,6 @@
 using Xunit;
 
-using Sharpasonne.BoardModels;
+using Sharpasonne.Models;
 
 namespace Sharpasonne.Tests.BoardModels
 {
@@ -15,5 +15,12 @@ namespace Sharpasonne.Tests.BoardModels
 
             Assert.Empty(grid);
         }
+
+        /*[Fact]
+        public void When_AddingATileToAnEmptyBoard_Then_BoardHasSameTile()
+        {
+            var board = new Board();
+            board.Set()
+        }*/
     }
 }

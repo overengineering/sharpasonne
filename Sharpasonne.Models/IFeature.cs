@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace Sharpasonne.BoardModels
+namespace Sharpasonne.Models
 {
     public interface IFeature
     {
