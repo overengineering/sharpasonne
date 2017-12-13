@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using Sharpasonne;
-using Sharpasonne.Models;
 using Xunit;
 
-namespace Sharparsonne.Models.Tests
+namespace Sharpasonne.Models.Tests
 {
     public class TileBuilderTests
     {

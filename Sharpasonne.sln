@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sharpasonne.Tests", "Sharpa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpasonne.Models", "Sharpasonne.Models\Sharpasonne.Models.csproj", "{D02FF6B4-1CAA-4FE8-B196-D77DAB9C2D2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharparsonne.Models.Tests", "Sharparsonne.Models.Tests\Sharparsonne.Models.Tests.csproj", "{64B6A130-3074-49E6-AF96-11246F82175C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharpasonne.Models.Tests", "Sharpasonne.Models.Tests\Sharpasonne.Models.Tests.csproj", "{64B6A130-3074-49E6-AF96-11246F82175C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
