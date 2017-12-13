@@ -2,8 +2,13 @@
 
 namespace Sharpasonne.Models.Features
 {
-    class Field : IFeature
+    public class Field : IFeature
     {
+        public Field(IImmutableSet<Segment> connections)
+        {
+            Connections = connections;
+        }
+
         public IImmutableSet<Segment> Connections { get; }
     }
 }
