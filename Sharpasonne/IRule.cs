@@ -2,8 +2,9 @@ using Sharpasonne.Models;
 
 namespace Sharpasonne
 {
-    internal interface IRule
+    public interface IRule
     {
-        bool Match(Board board, Placement placement, Tile tile);
+        bool Verify<T>(Engine engine, T gameAction)
+            where T : IGameAction;
     }
 }
