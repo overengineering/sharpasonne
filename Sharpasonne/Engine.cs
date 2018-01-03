@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 using Sharpasonne.Models;
 
@@ -12,17 +13,22 @@ namespace Sharpasonne
     {
         public Board Board { get; } = new Board();
 
+        public Engine()
+        {
+        }
+
         public Engine(
             [NotNull] IImmutableQueue<IGameAction> gameActions,
             [NotNull] IImmutableDictionary<Type, IImmutableList<IRule>> rules)
         {
             var nonGameActions = rules.Keys
-                .Where(k => !k.GetInterfaces().Any(i => i == typeof(IGameAction)))
+                .Where(type => !typeof(IGameAction).IsAssignableFrom(type))
                 .ToList();
+
             if (nonGameActions.Any())
             {
                 var typeNames = string.Join(", ", nonGameActions.Select(t => t.FullName));
-                var message = $"'{typeNames}' don't implement {nameof(IGameAction)}";
+                var message = $"'{typeNames}' does not implement {nameof(IGameAction)}";
                 throw new ArgumentOutOfRangeException(message);
             }
         }
@@ -33,9 +39,5 @@ namespace Sharpasonne
         {
             
         }*/
-    }
-
-    public interface IGameAction
-    {
     }
 }
