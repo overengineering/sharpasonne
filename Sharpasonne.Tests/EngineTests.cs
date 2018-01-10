@@ -12,7 +12,7 @@ namespace Sharpasonne.Tests
         {
             var engine = new Engine(
                 ImmutableQueue<IGameAction>.Empty,
-                ImmutableDictionary<Type, IImmutableList<IRule>>.Empty);
+                ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>.Empty);
 
             Assert.NotNull(engine.Board);
         }
@@ -20,9 +20,9 @@ namespace Sharpasonne.Tests
         [Fact]
         public void Given_ARuleSetWithANonGameActionKey_When_CreatingAnEngine_Then_Throw()
         {
-            var ruleSet = new Dictionary<Type, IImmutableList<IRule>>
+            var ruleSet = new Dictionary<Type, IImmutableList<IRule<IGameAction>>>
             {
-                [typeof(string)] = ImmutableList.Create<IRule>(new DummyRule())
+                [typeof(string)] = ImmutableList.Create<IRule<IGameAction>>(new DummyRule())
             }.ToImmutableDictionary();
 
 
@@ -36,9 +36,9 @@ namespace Sharpasonne.Tests
         [Fact]
         public void Given_ARuleSetWithAGameActionKey_When_CreatingAnEngine_Then_DontThrow()
         {
-            var ruleSet = new Dictionary<Type, IImmutableList<IRule>>
+            var ruleSet = new Dictionary<Type, IImmutableList<IRule<IGameAction>>>
             {
-                [typeof(DummyGameAction)] = ImmutableList.Create<IRule>(new DummyRule())
+                [typeof(DummyGameAction)] = ImmutableList.Create<IRule<IGameAction>>(new DummyRule())
             }.ToImmutableDictionary();
 
 
@@ -49,11 +49,11 @@ namespace Sharpasonne.Tests
             Assert.Null(exception);
         }
 
-        class DummyRule : IRule
+        class DummyRule : IRule<IGameAction>
         {
-            public bool Verify<T>(Engine engine, T gameAction) where T : IGameAction
+            public bool Verify<T1>(IEngine engine, T1 gameAction) where T1 : IGameAction
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 

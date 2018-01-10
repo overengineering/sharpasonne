@@ -2,9 +2,9 @@ using Sharpasonne.Models;
 
 namespace Sharpasonne
 {
-    public interface IRule
+    public interface IRule<T2> where T2: IGameAction
     {
-        bool Verify<T>(Engine engine, T gameAction)
-            where T : IGameAction;
+        bool Verify<T1>(IEngine engine, T1 gameAction)
+            where T1 : T2 ;
     }
 }

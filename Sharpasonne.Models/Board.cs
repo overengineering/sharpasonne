@@ -10,7 +10,7 @@ namespace Sharpasonne.Models
 
         public Board() { }
 
-        private Board(IImmutableDictionary<Point, Placement> grid)
+        public Board(IImmutableDictionary<Point, Placement> grid)
         {
             this.Grid = grid;
         }

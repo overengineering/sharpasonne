@@ -9,7 +9,7 @@ using Sharpasonne.Models;
 namespace Sharpasonne
 {
     // TODO: Consider rename.
-    public class Engine
+    public class Engine : IEngine
     {
         public Board Board { get; } = new Board();
 
@@ -19,7 +19,7 @@ namespace Sharpasonne
 
         public Engine(
             [NotNull] IImmutableQueue<IGameAction> gameActions,
-            [NotNull] IImmutableDictionary<Type, IImmutableList<IRule>> rules)
+            [NotNull] IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules)
         {
             var nonGameActions = rules.Keys
                 .Where(type => !typeof(IGameAction).IsAssignableFrom(type))
