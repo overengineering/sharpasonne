@@ -11,42 +11,27 @@ using Sharpasonne.Models.Features;
 
 namespace Sharpasonne.Tests.Rules
 {
-    public class SpaceIsEmptyRuleTests
+    public class SpaceIsEmptyRuleTests : UnitTest<PlaceTileGameAction>
     {
         [Fact]
         public void When_TileIsEmpty_Then_True()
         {
-            var tile = new TileBuilder()
-                .CreateTile(Enumerable.Empty<IFeature>())
-                .ValueOrFailure();
-            var centerPoint = new Point(0, 0);
-            var placement = new Placement(tile, Orientation.Top);
-            Assert.True(new SpaceIsEmptyRule().Verify(new Engine(), new PlaceTileGameAction(centerPoint, placement)));
+            AssertTrue<SpaceIsEmptyRule>(new Engine(), MakePlaceTile(0, 0));
         }
 
         [Fact]
         public void When_TileIsNotEmpty_Then_False()
         {
-            var tile = new TileBuilder()
-                .CreateTile(Enumerable.Empty<IFeature>())
-                .ValueOrFailure();
+            var action = MakePlaceTile(0, 0);
+            var board = new[] {action}.ToDictionary(
+                a => a.Point,
+                a => a.Placement
+            );
 
-            var centerPoint = new Point(0, 0);
-            var placement = new Placement(tile, Orientation.Top);
-            var board =
-                new Dictionary<Point, Placement>
-                {
-                    [centerPoint] = placement
-                }
-                .ToImmutableDictionary();
-
-            var engine = new Mock<IEngine>();
-            engine
-                .Setup(mockEngine => mockEngine.Board)
-                .Returns(new Board(board));
-
-            var placeTileGameAction = new PlaceTileGameAction(centerPoint, placement);
-            Assert.False(new SpaceIsEmptyRule().Verify(engine.Object, placeTileGameAction));
+            AssertFalse<SpaceIsEmptyRule>(
+                MockEngine(new Board(board)),
+                action
+            );
         }
     }
 }

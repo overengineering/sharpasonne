@@ -12,12 +12,12 @@ using Sharpasonne.Models.Features;
 
 namespace Sharpasonne.Tests.Rules
 {
-    public class UniqueTileInstanceRuleTests : UnitTest
+    public class UniqueTileInstanceRuleTests : UnitTest<PlaceTileGameAction>
     {
         [Fact]
         public void When_BoardIsEmpty_Then_True()
         {
-            AssertPlaceTileTrue<UniqueTileInstanceRule>(new Engine(), MakePlaceTile(0, 0));
+            AssertTrue<UniqueTileInstanceRule>(new Engine(), MakePlaceTile(0, 0));
         }
     }
 }

@@ -3,15 +3,34 @@ using Optional.Unsafe;
 using Sharpasonne.GameActions;
 using Sharpasonne.Models;
 using Xunit;
+using Moq;
 
 namespace Sharpasonne.Tests.Rules
 {
-    public abstract class UnitTest
+    public abstract class UnitTest<TGameAction>
+        where TGameAction : IGameAction
     {
-        protected void AssertPlaceTileTrue<TRule>(Engine engine, PlaceTileGameAction action)
-            where TRule : IRule<PlaceTileGameAction>, new()
+        protected void AssertTrue<TRule>(IEngine engine, TGameAction action)
+            where TRule : IRule<TGameAction>, new()
         {
             Assert.True(new TRule().Verify(engine, action));
+        }
+
+        protected void AssertFalse<TRule>(IEngine engine, TGameAction action)
+            where TRule : IRule<TGameAction>, new()
+        {
+            Assert.False(new TRule().Verify(engine, action));
+        }
+
+        protected IEngine MockEngine(Board board)
+        {
+            var engine = new Mock<IEngine>();
+
+            engine
+                .Setup(mockEngine => mockEngine.Board)
+                .Returns(board);
+
+            return engine.Object;
         }
 
         public PlaceTileGameAction MakePlaceTile(

@@ -1,18 +1,19 @@
 using System.Collections.Immutable;
 using Optional;
+using System.Collections.Generic;
 
 namespace Sharpasonne.Models
 {
     public class Board
     {
-        private IImmutableDictionary<Point, Placement> Grid { get; } 
+        private ImmutableDictionary<Point, Placement> Grid { get; } 
             = ImmutableDictionary.Create<Point, Placement>();
 
         public Board() { }
 
-        public Board(IImmutableDictionary<Point, Placement> grid)
+        public Board(IDictionary<Point, Placement> grid)
         {
-            this.Grid = grid;
+            this.Grid = grid.ToImmutableDictionary();
         }
 
         public Option<Placement> Get(Point point)
