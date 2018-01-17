@@ -7,3 +7,4 @@ namespace Sharpasonne.Models
         IImmutableSet<Segment> Connections { get; }
     }
 }
+

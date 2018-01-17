@@ -16,3 +16,4 @@ namespace Sharpasonne.Models
         LeftTop,
     }
 }
+

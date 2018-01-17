@@ -8,3 +8,4 @@ namespace Sharpasonne.Models
         Left,
     }
 }
+

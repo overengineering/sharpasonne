@@ -7,3 +7,4 @@ namespace Sharpasonne.Models.Features
         public IImmutableSet<Segment> Connections { get; }
     }
 }
+

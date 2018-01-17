@@ -8,3 +8,4 @@ namespace Sharpasonne.Models.Features
         public bool HasShield { get; }
     }
 }
+
