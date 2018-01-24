@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Sharpasonne;
 using Sharpasonne.GameActions;
-using Sharpasonne.Models;
 
 namespace Sharpasonne.Rules
 {
