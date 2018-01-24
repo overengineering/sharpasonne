@@ -33,11 +33,12 @@ namespace Sharpasonne.Tests.Rules
             return engine.Object;
         }
 
-        public PlaceTileGameAction MakePlaceTile(
+        protected PlaceTileGameAction MakePlaceTile(
             int x,
-            int y)
+            int y,
+            Tile tile = null)
         {
-            var tile = new TileBuilder()
+            tile = tile ?? new TileBuilder()
                 .CreateTile(Enumerable.Empty<IFeature>())
                 .ValueOrFailure();
 
@@ -45,6 +46,14 @@ namespace Sharpasonne.Tests.Rules
                 new Point(x, y),
                 new Placement(tile, Orientation.Top)
             );
+        }
+
+        protected Board MakeBoard(params PlaceTileGameAction[] actions)
+        {
+            return new Board(actions.ToDictionary(
+                a => a.Point,
+                a => a.Placement
+            ));
         }
     }
 }

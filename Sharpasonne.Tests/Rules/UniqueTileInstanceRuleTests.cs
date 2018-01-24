@@ -12,26 +12,18 @@ namespace Sharpasonne.Tests.Rules
         [Fact]
         public void When_BoardIsEmpty_Then_True()
         {
-            this.AssertTrue<UniqueTileInstanceRule>(new Engine(), this.MakePlaceTile(0, 0));
+            AssertTrue<UniqueTileInstanceRule>(new Engine(), MakePlaceTile(0, 0));
         }
 
         [Fact]
         public void Given_BoardHasInstanceofTile_When_PlaceSameInstanceAgain_Then_False()
         {
-            var action = MakePlaceTile(0, 0);
-            var board = new[] { action }.ToDictionary(
-                a => a.Point,
-                a => a.Placement
-            );
+            var firstAction  = MakePlaceTile(0, 0);
+            var board        = MakeBoard(firstAction);
+            var engine       = MockEngine(board);
+            var secondAction = MakePlaceTile(0, 0, firstAction.Placement.Tile);
 
-            var engine = this.MockEngine(new Board(board));
-
-            var secondPlaceTileGameAction = new PlaceTileGameAction(
-                new Point(0, 0),
-                new Placement(action.Placement.Tile, Orientation.Top)
-            );
-
-            this.AssertFalse<UniqueTileInstanceRule>(engine, secondPlaceTileGameAction);
+            AssertFalse<UniqueTileInstanceRule>(engine, secondAction);
         }
     }
 }

@@ -18,15 +18,10 @@ namespace Sharpasonne.Tests.Rules
         public void When_TileIsNotEmpty_Then_False()
         {
             var action = MakePlaceTile(0, 0);
-            var board = new[] {action}.ToDictionary(
-                a => a.Point,
-                a => a.Placement
-            );
+            var board  = MakeBoard(action);
+            var engine = MockEngine(board);
 
-            AssertFalse<SpaceIsEmptyRule>(
-                MockEngine(new Board(board)),
-                action
-            );
+            AssertFalse<SpaceIsEmptyRule>(engine, action);
         }
     }
 }
