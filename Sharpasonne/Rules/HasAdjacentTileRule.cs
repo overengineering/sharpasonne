@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Sharpasonne.Rules
 {
-    public class AdjecentTileRule : IRule<PlaceTileGameAction>
+    public class HasAdjacentTileRule : IRule<PlaceTileGameAction>
     {
         public bool Verify<T1>(IEngine engine, T1 gameAction) where T1 : PlaceTileGameAction
         {
