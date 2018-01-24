@@ -2,9 +2,13 @@
 
 namespace Sharpasonne.Models.Features
 {
-    class Monastery : IFeature
+    public class Monastery : IFeature
     {
         public IImmutableSet<Segment> Connections { get; }
+
+        public Monastery(IImmutableSet<Segment> connections)
+        {
+            Connections = connections;
+        }
     }
 }
-
