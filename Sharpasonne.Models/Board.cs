@@ -38,5 +38,17 @@ namespace Sharpasonne.Models
         {
             return this.Grid;
         }
+
+        public IImmutableDictionary<Orientation, Option<Placement>> GetAdjecentTiles(Point point)
+        {
+            var adjecentTiles = new Dictionary<Orientation, Option<Placement>> {
+                [Orientation.Top] = Get(new Point(point.X, point.Y + 1)),
+                [Orientation.Right] = Get(new Point(point.X + 1, point.Y)),
+                [Orientation.Bottom] = Get(new Point(point.X, point.Y - 1)),
+                [Orientation.Left] = Get(new Point(point.X - 1, point.Y)),
+            }.ToImmutableDictionary();
+
+            return adjecentTiles;
+        }
     }
 }

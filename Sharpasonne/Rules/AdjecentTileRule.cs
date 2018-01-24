@@ -1,9 +1,18 @@
 using Sharpasonne.GameActions;
+using System.Linq;
 
 namespace Sharpasonne.Rules
 {
-    abstract class AdjecentTileRule : IRule<PlaceTileGameAction>
+    public class AdjecentTileRule : IRule<PlaceTileGameAction>
     {
-        public abstract bool Verify<T1>(IEngine engine, T1 gameAction) where T1 : PlaceTileGameAction;
+        public bool Verify<T1>(IEngine engine, T1 gameAction) where T1 : PlaceTileGameAction
+        {
+            var isValid = engine.Board.ToImmutableDictionary().Count() == 0
+                || engine.Board.GetAdjecentTiles(gameAction.Point)
+                    .Values
+                    .Any(optionalTile => optionalTile.HasValue);
+
+            return isValid;
+        }
     }
 }
