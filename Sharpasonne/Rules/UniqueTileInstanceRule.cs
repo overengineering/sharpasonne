@@ -1,3 +1,4 @@
+using System.Linq;
 using Sharpasonne.GameActions;
 
 namespace Sharpasonne.Rules
@@ -6,7 +7,13 @@ namespace Sharpasonne.Rules
     {
         public bool Verify<T1>(IEngine engine, T1 gameAction) where T1 : PlaceTileGameAction
         {
-            return true;
+            var allTiles = engine.Board
+                .ToImmutableDictionary()
+                .Values
+                .Select(placement => placement.Tile);
+
+            return !allTiles
+                .Contains(gameAction.Placement.Tile);
         }
     }
 }
