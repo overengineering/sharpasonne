@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using System.Linq;
 using Sharpasonne.GameActions;
 using Sharpasonne.Models;
-using System.Collections.Generic;
+using Optional.Unsafe;
 
 namespace Sharpasonne.Rules
 {
@@ -17,7 +16,7 @@ namespace Sharpasonne.Rules
                 .Where(o => o.Value.HasValue)
                 .Select(o => (
                     o.Key,
-                    o.Value.ValueOr(null as Placement)
+                    o.Value.ValueOrFailure()
                 ))
                 .All(o =>
                 {
@@ -26,10 +25,34 @@ namespace Sharpasonne.Rules
                     switch (direction)
                     {
                         case Orientation.Top:
+                        {
                             return this.EdgesMatch(
                                 placement.Tile.GetEdge(Orientation.Bottom),
                                 action.Placement.Tile.GetEdge(Orientation.Top)
                             );
+                        }
+                        case Orientation.Bottom:
+                        {
+                            return this.EdgesMatch(
+                                placement.Tile.GetEdge(Orientation.Top),
+                                action.Placement.Tile.GetEdge(Orientation.Bottom)
+                            );
+                        }
+                        case Orientation.Left:
+                        {
+                            return this.EdgesMatch(
+                                placement.Tile.GetEdge(Orientation.Right),
+                                action.Placement.Tile.GetEdge(Orientation.Left)
+                            );
+                        }
+                        case Orientation.Right:
+                        {
+                            return this.EdgesMatch(
+                                placement.Tile.GetEdge(Orientation.Left),
+                                action.Placement.Tile.GetEdge(Orientation.Right)
+                            );
+                        }
+
                         default:
                             throw new NotImplementedException();
                     }

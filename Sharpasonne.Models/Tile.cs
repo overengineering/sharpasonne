@@ -33,17 +33,31 @@ namespace Sharpasonne.Models
             {
                 case Orientation.Top:
                     return new[]
-                        {
-                            Segment.TopLeft,
-                            Segment.Top,
-                            Segment.TopRight,
-                        };
+                    {
+                        Segment.TopLeft,
+                        Segment.Top,
+                        Segment.TopRight,
+                    };
                 case Orientation.Bottom:
                     return new[]
                     {
                         Segment.BottomLeft,
                         Segment.Bottom,
                         Segment.BottomRight,
+                    };
+                case Orientation.Left:
+                    return new[]
+                    {
+                        Segment.LeftTop,
+                        Segment.Left,
+                        Segment.LeftBottom,
+                    };
+                case Orientation.Right:
+                    return new[]
+                    {
+                        Segment.RightTop,
+                        Segment.Right,
+                        Segment.RightBottom,
                     };
                 default:
                     throw new NotImplementedException();

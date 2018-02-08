@@ -19,7 +19,7 @@ namespace Sharpasonne.Tests.Rules
         }
         
         [Fact]
-        public void Given_OneNeighbour_When_FeaturesMatch_Then_True()
+        public void Given_OneSouthernNeighbour_When_FeaturesMatch_Then_True()
         {
             var aboveTile = new TileBuilder()
                 .CreateTile(new []
@@ -52,7 +52,7 @@ namespace Sharpasonne.Tests.Rules
         }
 
         [Fact]
-        public void Given_OneNeighbour_When_FeaturesDoNotMatch_Then_False()
+        public void Given_OneSouthernNeighbour_When_FeaturesDoNotMatch_Then_False()
         {
             var aboveTile = new TileBuilder()
                 .CreateTile(new IFeature[]
@@ -85,6 +85,42 @@ namespace Sharpasonne.Tests.Rules
             var engine = MockEngine(board);
 
             AssertFalse<AdjacentFeaturesMatchRule>(engine, belowAction);
+        }
+
+        [Fact]
+        public void Given_OneEasternNeighbour_When_FeaturesDoNotMatch_Then_False()
+        {
+            var leftTile = new TileBuilder()
+                .CreateTile(new IFeature[]
+                {
+                    new City(
+                        ImmutableHashSet.Create(Segment.RightBottom),
+                        hasShield: true
+                    ),
+                    new Field(ImmutableHashSet.Create(
+                        Segment.Right,
+                        Segment.RightTop
+                    )),
+                })
+                .ValueOrFailure();
+
+            var rightTile = new TileBuilder()
+                .CreateTile(new[]
+                {
+                    new Field(ImmutableHashSet.Create(
+                        Segment.LeftTop,
+                        Segment.Left,
+                        Segment.LeftBottom
+                    )),
+                })
+                .ValueOrFailure();
+
+            var leftAction = MakePlaceTile(0, 0, leftTile);
+            var rightAction = MakePlaceTile(1, 0, rightTile);
+            var board = MakeBoard(leftAction);
+            var engine = MockEngine(board);
+
+            AssertFalse<AdjacentFeaturesMatchRule>(engine, rightAction);
         }
     }
 }
