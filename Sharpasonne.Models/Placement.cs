@@ -1,3 +1,5 @@
+using System;
+
 namespace Sharpasonne.Models
 {
     public class Placement
@@ -9,6 +11,12 @@ namespace Sharpasonne.Models
         {
             Tile = tile;
             Orientation = orientation;
+        }
+
+        public IFeature[] GetEdge(Orientation orientation)
+        {
+            var direction = orientation.RotateInverse(this.Orientation);
+            return this.Tile.GetEdge(direction);
         }
     }
 }

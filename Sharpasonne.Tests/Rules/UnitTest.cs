@@ -36,7 +36,8 @@ namespace Sharpasonne.Tests.Rules
         protected PlaceTileGameAction MakePlaceTile(
             int x,
             int y,
-            Tile tile = null)
+            Tile tile = null,
+            Orientation orientation = Orientation.Top)
         {
             tile = tile ?? new TileBuilder()
                 .CreateTile(Enumerable.Empty<IFeature>())
@@ -44,7 +45,7 @@ namespace Sharpasonne.Tests.Rules
 
             return new PlaceTileGameAction(
                 new Point(x, y),
-                new Placement(tile, Orientation.Top)
+                new Placement(tile, orientation)
             );
         }
 

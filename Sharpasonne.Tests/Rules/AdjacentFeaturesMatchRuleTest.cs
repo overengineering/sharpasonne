@@ -122,5 +122,38 @@ namespace Sharpasonne.Tests.Rules
 
             AssertFalse<AdjacentFeaturesMatchRule>(engine, rightAction);
         }
+
+        [Fact]
+        public void Given_OneRotatedNeighbour_When_FeaturesMatch_Then_True()
+        {
+            var leftTile = new TileBuilder()
+                .CreateTile(new IFeature[]
+                {
+                    new Field(ImmutableHashSet.Create(
+                        Segment.RightTop,
+                        Segment.Right,
+                        Segment.RightBottom
+                    )),
+                })
+                .ValueOrFailure();
+
+            var rightTile = new TileBuilder()
+                .CreateTile(new[]
+                {
+                    new Field(ImmutableHashSet.Create(
+                        Segment.TopLeft,
+                        Segment.Top,
+                        Segment.TopRight
+                    )),
+                })
+                .ValueOrFailure();
+
+            var leftAction  = MakePlaceTile(0, 0, leftTile,  Orientation.Top);
+            var rightAction = MakePlaceTile(1, 0, rightTile, Orientation.Left);
+            var board = MakeBoard(leftAction);
+            var engine = MockEngine(board);
+
+            AssertTrue<AdjacentFeaturesMatchRule>(engine, rightAction);
+        }
     }
 }

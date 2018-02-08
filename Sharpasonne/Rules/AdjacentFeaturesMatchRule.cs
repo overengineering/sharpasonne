@@ -27,29 +27,29 @@ namespace Sharpasonne.Rules
                         case Orientation.Top:
                         {
                             return this.EdgesMatch(
-                                placement.Tile.GetEdge(Orientation.Bottom),
-                                action.Placement.Tile.GetEdge(Orientation.Top)
+                                placement.GetEdge(Orientation.Bottom),
+                                action.Placement.GetEdge(Orientation.Top)
                             );
                         }
                         case Orientation.Bottom:
                         {
                             return this.EdgesMatch(
-                                placement.Tile.GetEdge(Orientation.Top),
-                                action.Placement.Tile.GetEdge(Orientation.Bottom)
+                                placement.GetEdge(Orientation.Top),
+                                action.Placement.GetEdge(Orientation.Bottom)
                             );
                         }
                         case Orientation.Left:
                         {
                             return this.EdgesMatch(
-                                placement.Tile.GetEdge(Orientation.Right),
-                                action.Placement.Tile.GetEdge(Orientation.Left)
+                                placement.GetEdge(Orientation.Right),
+                                action.Placement.GetEdge(Orientation.Left)
                             );
                         }
                         case Orientation.Right:
                         {
                             return this.EdgesMatch(
-                                placement.Tile.GetEdge(Orientation.Left),
-                                action.Placement.Tile.GetEdge(Orientation.Right)
+                                placement.GetEdge(Orientation.Left),
+                                action.Placement.GetEdge(Orientation.Right)
                             );
                         }
 

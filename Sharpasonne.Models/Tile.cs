@@ -27,8 +27,13 @@ namespace Sharpasonne.Models
             return features.ToArray();
         }
 
+        /// <summary>
+        /// Order of the contents matters in order to match the edges in 
+        /// AdjacentFeaturesMatch rule. 
+        /// </summary>
         protected Segment[] GetSegments(Orientation direction)
         {
+            // TODO: Test because of the order issue
             switch (direction)
             {
                 case Orientation.Top:
