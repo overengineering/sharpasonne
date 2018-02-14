@@ -18,10 +18,6 @@ namespace Sharpasonne
         public IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> Rules { get; }
             = ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>.Empty;
 
-        public Engine()
-        {
-        }
-
         /// <summary>
         /// 
         /// </summary>

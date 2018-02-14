@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Moq;
 using Sharpasonne.GameActions;
 using Sharpasonne.Models;
 using Sharpasonne.Rules;
@@ -12,7 +13,12 @@ namespace Sharpasonne.Tests.Rules
         [Fact]
         public void When_BoardIsEmpty_Then_True()
         {
-            AssertTrue<UniqueTileInstanceRule>(new Engine(), MakePlaceTile(0, 0));
+            var mockEngine = new Mock<IEngine>();
+            mockEngine
+                .Setup(e => e.Board)
+                .Returns(new Board());
+
+            AssertTrue<UniqueTileInstanceRule>(mockEngine.Object, MakePlaceTile(0, 0));
         }
 
         [Fact]

@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using Sharpasonne.GameActions;
+﻿using Sharpasonne.GameActions;
 using Sharpasonne.Rules;
 using Xunit;
 using Moq;
-using Optional.Unsafe;
 using Sharpasonne.Models;
-using Sharpasonne.Models.Features;
 
 namespace Sharpasonne.Tests.Rules
 {
@@ -16,7 +11,12 @@ namespace Sharpasonne.Tests.Rules
         [Fact]
         public void Given_BoardIsEmpty_When_PlacingATile_Then_Validates()
         {
-            AssertTrue<HasAdjacentTileRule>(new Engine(), MakePlaceTile(0, 0));
+            var mockEngine = new Mock<IEngine>();
+            mockEngine
+                .Setup(e => e.Board)
+                .Returns(new Board());
+
+            AssertTrue<HasAdjacentTileRule>(mockEngine.Object, MakePlaceTile(0, 0));
         }
 
         [Fact]

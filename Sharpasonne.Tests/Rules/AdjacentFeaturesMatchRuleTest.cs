@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Sharpasonne.GameActions;
+﻿using Sharpasonne.GameActions;
 using Sharpasonne.Models;
 using Sharpasonne.Models.Features;
 using Sharpasonne.Rules;
 using Xunit;
 using System.Collections.Immutable;
-using System.Diagnostics;
+using Moq;
 using Optional.Unsafe;
 
 namespace Sharpasonne.Tests.Rules
@@ -16,7 +14,12 @@ namespace Sharpasonne.Tests.Rules
         [Fact]
         public void Given_Empty_Then_True()
         {
-            AssertTrue<AdjacentFeaturesMatchRule>(new Engine(), MakePlaceTile(0, 0));
+            var mockEngine = new Mock<IEngine>();
+            mockEngine
+                .Setup(e => e.Board)
+                .Returns(new Board());
+
+            AssertTrue<AdjacentFeaturesMatchRule>(mockEngine.Object, MakePlaceTile(0, 0));
         }
         
         [Fact]

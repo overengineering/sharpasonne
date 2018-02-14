@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Moq;
 using Sharpasonne.GameActions;
 using Sharpasonne.Rules;
 using Xunit;
@@ -11,7 +12,12 @@ namespace Sharpasonne.Tests.Rules
         [Fact]
         public void When_TileIsEmpty_Then_True()
         {
-            AssertTrue<SpaceIsEmptyRule>(new Engine(), MakePlaceTile(0, 0));
+            var mockEngine = new Mock<IEngine>();
+            mockEngine
+                .Setup(e => e.Board)
+                .Returns(new Board());
+
+            AssertTrue<SpaceIsEmptyRule>(mockEngine.Object, MakePlaceTile(0, 0));
         }
 
         [Fact]
