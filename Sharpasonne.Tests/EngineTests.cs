@@ -88,7 +88,7 @@ namespace Sharpasonne.Tests
             Assert.True(newState.HasValue);
         }
 
-        /*[Fact]
+        [Fact]
         public void When_PlacingFirstTile_Then_ReturnsNewStateWithSinglePlacedTile()
         {
             // Arrange
@@ -104,6 +104,6 @@ namespace Sharpasonne.Tests
 
             // Assert
             Assert.Equal(1, newState.ValueOrFailure().Board.ToImmutableDictionary().Count);
-        }*/
+        }
     }
 }
