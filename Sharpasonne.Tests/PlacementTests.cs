@@ -70,7 +70,7 @@ namespace Sharpasonne.Tests
         }
 
         [Fact]
-        public void Given_AnRightRotatedTile_When_GettingRightEdge_Then_ReturnsBottomEdge()
+        public void Given_ARightRotatedTile_When_GettingRightEdge_Then_ReturnsBottomEdge()
         {
             // Arrange
             var field = new Field(ImmutableHashSet.Create(

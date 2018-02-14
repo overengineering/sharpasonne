@@ -6,6 +6,7 @@ using Sharpasonne.Models.Features;
 using Sharpasonne.Rules;
 using Xunit;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using Optional.Unsafe;
 
 namespace Sharpasonne.Tests.Rules
@@ -150,10 +151,58 @@ namespace Sharpasonne.Tests.Rules
 
             var leftAction  = MakePlaceTile(0, 0, leftTile,  Orientation.Top);
             var rightAction = MakePlaceTile(1, 0, rightTile, Orientation.Left);
-            var board = MakeBoard(leftAction);
-            var engine = MockEngine(board);
+            var board       = MakeBoard(leftAction);
+            var engine      = MockEngine(board);
 
             AssertTrue<AdjacentFeaturesMatchRule>(engine, rightAction);
+        }
+
+        [Fact]
+        public void Given_TwoRotatedNeighbours_When_FeaturesMatch_Then_True()
+        {
+            var topTile = new TileBuilder()
+                .CreateTile(new IFeature[]
+                {
+                    new Field(ImmutableHashSet.Create(
+                        Segment.RightTop,
+                        Segment.Right,
+                        Segment.RightBottom
+                    )),
+                })
+                .ValueOrFailure();
+
+            var centreTile = new TileBuilder()
+                .CreateTile(new[]
+                {
+                    new Field(ImmutableHashSet.Create(
+                        Segment.TopLeft,
+                        Segment.Top,
+                        Segment.TopRight,
+                        Segment.BottomLeft,
+                        Segment.Bottom,
+                        Segment.BottomRight
+                    )),
+                })
+                .ValueOrFailure();
+
+            var bottomTile = new TileBuilder()
+                .CreateTile(new[]
+                {
+                    new Field(ImmutableHashSet.Create(
+                        Segment.RightTop,
+                        Segment.Right,
+                        Segment.RightBottom
+                    )),
+                })
+                .ValueOrFailure();
+
+            var topAction    = MakePlaceTile(0, 1, topTile,    Orientation.Right);
+            var centreAction = MakePlaceTile(0, 0,  centreTile, Orientation.Bottom);
+            var bottomAction = MakePlaceTile(0, -1,  bottomTile, Orientation.Left);
+            var board        = MakeBoard(topAction, bottomAction);
+            var engine       = MockEngine(board);
+
+            AssertTrue<AdjacentFeaturesMatchRule>(engine, centreAction);
         }
     }
 }
