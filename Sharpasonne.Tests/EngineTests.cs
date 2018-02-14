@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using Optional.Unsafe;
 using Sharpasonne.GameActions;
+using Sharpasonne.Models;
 using Sharpasonne.Rules;
+using Sharpasonne.Tests.Rules;
 using Xunit;
 
 namespace Sharpasonne.Tests
 {
-    public class EngineTests
+    public class EngineTests : UnitTest<PlaceTileGameAction>
     {
         [Fact]
         public void When_CreatingAnEngine_Then_BoardIsNotNull()
@@ -61,6 +64,46 @@ namespace Sharpasonne.Tests
 
         class DummyGameAction : IGameAction
         {
+            public IEngine Perform(IEngine engine)
+            {
+                throw new NotImplementedException();
+            }
         }
+
+        [Fact]
+        public void When_PlacingFirstTile_Then_ReturnsANewState()
+        {
+            // Arrange
+            var rules = new Dictionary<Type, IImmutableList<IRule<IGameAction>>>()
+            {
+                [typeof(PlaceTileGameAction)] = ImmutableList<IRule<IGameAction>>.Empty
+            };
+
+            var engine = new Engine(rules.ToImmutableDictionary());
+
+            // Act
+            var newState = engine.Perform(MakePlaceTile(0, 0));
+
+            // Assert
+            Assert.True(newState.HasValue);
+        }
+
+        /*[Fact]
+        public void When_PlacingFirstTile_Then_ReturnsNewStateWithSinglePlacedTile()
+        {
+            // Arrange
+            var rules = new Dictionary<Type, IImmutableList<IRule<IGameAction>>>()
+            {
+                [typeof(PlaceTileGameAction)] = ImmutableList<IRule<IGameAction>>.Empty
+            };
+
+            var engine = new Engine(rules.ToImmutableDictionary());
+
+            // Act
+            var newState = engine.Perform(MakePlaceTile(0, 0));
+
+            // Assert
+            Assert.Equal(1, newState.ValueOrFailure().Board.ToImmutableDictionary().Count);
+        }*/
     }
 }
