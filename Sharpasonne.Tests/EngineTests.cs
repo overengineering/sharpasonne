@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using Sharpasonne.GameActions;
+using Sharpasonne.Rules;
 using Xunit;
 
 namespace Sharpasonne.Tests

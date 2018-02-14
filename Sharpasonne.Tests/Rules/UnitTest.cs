@@ -4,6 +4,7 @@ using Sharpasonne.GameActions;
 using Sharpasonne.Models;
 using Xunit;
 using Moq;
+using Sharpasonne.Rules;
 
 namespace Sharpasonne.Tests.Rules
 {

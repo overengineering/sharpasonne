@@ -1,6 +1,6 @@
-using Sharpasonne.Models;
+using Sharpasonne.GameActions;
 
-namespace Sharpasonne
+namespace Sharpasonne.Rules
 {
     public interface IRule<T2> where T2 : IGameAction
     {

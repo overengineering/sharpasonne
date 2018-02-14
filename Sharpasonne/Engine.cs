@@ -4,7 +4,9 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
+using Sharpasonne.GameActions;
 using Sharpasonne.Models;
+using Sharpasonne.Rules;
 
 namespace Sharpasonne
 {

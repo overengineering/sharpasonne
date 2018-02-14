@@ -1,4 +1,4 @@
-namespace Sharpasonne
+namespace Sharpasonne.GameActions
 {
     public interface IGameAction
     {
