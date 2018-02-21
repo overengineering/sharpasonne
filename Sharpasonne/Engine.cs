@@ -18,13 +18,21 @@ namespace Sharpasonne
         public IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> Rules { get; }
             = ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>.Empty;
 
-        /// <summary>
-        /// 
-        /// </summary>
+
         /// <param name="gameActions"></param>
         /// <param name="rules">Must provide list for every action to be used by
         /// Perform.</param>
-        public Engine(
+        public static Option<Engine, Exception> Create(
+            [NotNull] IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules)
+        {
+            return Engine.Create(ImmutableQueue<IGameAction>.Empty, rules);
+        }
+
+        /// <param name="gameActions"></param>
+        /// <param name="rules">Must provide list for every action to be used by
+        /// Perform.</param>
+        public static Option<Engine, Exception> Create(
+            [NotNull] IImmutableQueue<IGameAction>                                   gameActions,
             [NotNull] IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules)
         {
             var nonGameActions = rules.Keys
@@ -35,17 +43,17 @@ namespace Sharpasonne
             {
                 var typeNames = string.Join(", ", nonGameActions.Select(t => t.FullName));
                 var message = $"'{typeNames}' does not implement {nameof(IGameAction)}";
-                throw new ArgumentOutOfRangeException(message);
+                return Option.None<Engine, Exception>(new ArgumentOutOfRangeException(nameof(gameActions), message));
             }
 
-            this.Rules = rules;
+            return Option.Some<Engine, Exception>(new Engine(gameActions, rules));
         }
 
-        public Engine(
+        private Engine(
             [NotNull] IImmutableQueue<IGameAction>                                   gameActions,
             [NotNull] IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules)
-            : this(rules)
         {
+            this.Rules = rules;
         }
 
         private Engine(IEngine engine)

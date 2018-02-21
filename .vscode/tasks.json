@@ -5,7 +5,7 @@
     "tasks": [
         {
             "label": "Test",
-            "command": "dotnet test Sharpasonne.Tests",
+            "command": "dotnet test Sharpasonne.Tests && dotnet test Sharpasonne.Model.Tests",
             "type": "shell",
             "group": "test",
             "presentation": {
