@@ -6,34 +6,10 @@ using Xunit;
 using Moq;
 using Sharpasonne.Rules;
 
-namespace Sharpasonne.Tests.Rules
+namespace Sharpasonne.Tests
 {
-    public abstract class UnitTest<TGameAction>
-        where TGameAction : IGameAction
+    public abstract class UnitTest
     {
-        protected void AssertTrue<TRule>(IEngine engine, TGameAction action)
-            where TRule : IRule<TGameAction>, new()
-        {
-            Assert.True(new TRule().Verify(engine, action));
-        }
-
-        protected void AssertFalse<TRule>(IEngine engine, TGameAction action)
-            where TRule : IRule<TGameAction>, new()
-        {
-            Assert.False(new TRule().Verify(engine, action));
-        }
-
-        protected IEngine MockEngine(Board board)
-        {
-            var engine = new Mock<IEngine>();
-
-            engine
-                .Setup(mockEngine => mockEngine.Board)
-                .Returns(board);
-
-            return engine.Object;
-        }
-
         protected PlaceTileGameAction MakePlaceTile(
             int x,
             int y,
@@ -56,6 +32,17 @@ namespace Sharpasonne.Tests.Rules
                 a => a.Point,
                 a => new Placement(a.Placement)
             ));
+        }
+
+        protected IEngine MockEngine(Board board)
+        {
+            var engine = new Mock<IEngine>();
+
+            engine
+                .Setup(mockEngine => mockEngine.Board)
+                .Returns(board);
+
+            return engine.Object;
         }
     }
 }

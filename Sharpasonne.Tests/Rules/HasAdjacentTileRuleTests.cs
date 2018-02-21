@@ -6,7 +6,7 @@ using Sharpasonne.Models;
 
 namespace Sharpasonne.Tests.Rules
 {
-    public class HasAdjacentTileRuleTests : UnitTest<PlaceTileGameAction>
+    public class HasAdjacentTileRuleTests : RuleUnitTest<PlaceTileGameAction>
     {
         [Fact]
         public void Given_BoardIsEmpty_When_PlacingATile_Then_Validates()

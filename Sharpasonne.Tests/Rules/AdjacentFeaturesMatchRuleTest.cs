@@ -9,7 +9,7 @@ using Optional.Unsafe;
 
 namespace Sharpasonne.Tests.Rules
 {
-    public class AdjacentFeaturesMatchRuleTest : UnitTest<PlaceTileGameAction>
+    public class AdjacentFeaturesMatchRuleTest : RuleUnitTest<PlaceTileGameAction>
     {
         [Fact]
         public void Given_Empty_Then_True()

@@ -7,7 +7,7 @@ using Sharpasonne.Models;
 
 namespace Sharpasonne.Tests.Rules
 {
-    public class SpaceIsEmptyRuleTests : UnitTest<PlaceTileGameAction>
+    public class SpaceIsEmptyRuleTests : RuleUnitTest<PlaceTileGameAction>
     {
         [Fact]
         public void When_TileIsEmpty_Then_True()

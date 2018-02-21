@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Sharpasonne.Tests.Rules
 {
-    public class UniqueTileInstanceRuleTests : UnitTest<PlaceTileGameAction>
+    public class UniqueTileInstanceRuleTests : RuleUnitTest<PlaceTileGameAction>
     {
         [Fact]
         public void When_BoardIsEmpty_Then_True()
