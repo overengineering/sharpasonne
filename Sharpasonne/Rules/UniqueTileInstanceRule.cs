@@ -10,7 +10,7 @@ namespace Sharpasonne.Rules
             var allTiles = engine.Board
                 .ToImmutableDictionary()
                 .Values
-                .Select(placement => placement.Tile);
+                .Select(placement => placement.TilePlacement.Tile);
 
             return !allTiles
                 .Contains(gameAction.Placement.Tile);
