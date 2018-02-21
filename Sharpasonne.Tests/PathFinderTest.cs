@@ -48,7 +48,7 @@ namespace Sharpasonne.Tests
                 Segment.Bottom);
             
             //Then
-            Assert.Equal(2, cityTiles.Count());
+            Assert.Equal(2, cityTiles.Count);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Sharpasonne.Rules
         public bool Verify<T1>(IEngine engine, T1 action)
             where T1 : PlaceTileGameAction
         {
-            var adjacent = engine.Board.GetAdjecentTiles(action.Point);
+            var adjacent = engine.Board.GetAdjecentOrientationAndPlacements(action.Point);
             var allMatch = adjacent
                 // Where orientation has a Placement
                 .Where(kv => kv.Value.HasValue)
