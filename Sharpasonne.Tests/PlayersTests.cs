@@ -35,5 +35,25 @@ namespace Sharpasonne.Tests
         {
             Players.Create(6).MatchNone(exception => Assert.IsType<ArgumentOutOfRangeException>(exception));
         }
+
+        [Fact]
+        public void Given_NumberOutsideRange_When_FindingNextPlayer_Then_Is1()
+        {
+            Assert.Equal(1, Players.Create(2).ValueOrFailure().NextPlayer(0));
+            Assert.Equal(1, Players.Create(2).ValueOrFailure().NextPlayer(3));
+        }
+
+        [Fact]
+        public void Given_Player1_When_FindingNextPlayer_Then_Is2()
+        {
+            Assert.Equal(2, Players.Create(2).ValueOrFailure().NextPlayer(1));
+        }
+
+        [Fact]
+        public void Given_LastPlayerInBound_When_FindingNextPlayer_Then_Is1()
+        {
+            int count = 4;
+            Assert.Equal(1, Players.Create(count).ValueOrFailure().NextPlayer(count));
+        }
     }
 }

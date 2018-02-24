@@ -19,19 +19,23 @@ namespace Sharpasonne.GameActions
         public IEngine Perform(IEngine engine)
         {
             var board = engine.Board.Set(Placement.Tile, Point, Placement.Orientation);
-            return new EngineState(board, engine.Rules);
+            return new EngineState(board, engine);
         }
     }
 
     public class EngineState : IEngine
     {
-        public EngineState(Board board, IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules)
+        public EngineState(Board board, IEngine engine)
         {
-            Board = board;
-            Rules = rules;
+            this.Board = board;
+            this.Rules = engine.Rules;
+            this.Players = engine.Players;
+            this.CurrentPlayerTurn = engine.CurrentPlayerTurn;
         }
 
         public Board Board { get; }
+        public Players Players { get; }
+        public int CurrentPlayerTurn { get; }
         public IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> Rules { get; }
     }
 }

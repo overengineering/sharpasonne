@@ -34,7 +34,8 @@ namespace Sharpasonne.Tests
             var engine = Engine
                 .Create(
                     ImmutableQueue<IGameAction>.Empty,
-                    ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>.Empty)
+                    ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>.Empty,
+                    Players.Create(2).ValueOrFailure())
                 .ValueOrFailure();
 
             Assert.NotNull(engine.Board);
@@ -49,7 +50,8 @@ namespace Sharpasonne.Tests
 
             var option = Engine.Create(
                 ImmutableQueue<IGameAction>.Empty,
-                ruleSet.ToImmutableDictionary());
+                ruleSet.ToImmutableDictionary(),
+                Players.Create(2).ValueOrFailure());
 
             Assert.False(option.HasValue);
             option.MatchNone((exception) => Assert.IsType<ArgumentOutOfRangeException>(exception));
@@ -64,7 +66,8 @@ namespace Sharpasonne.Tests
 
             var option = Engine.Create(
                 ImmutableQueue<IGameAction>.Empty,
-                ruleSet.ToImmutableDictionary());
+                ruleSet.ToImmutableDictionary(),
+                Players.Create(2).ValueOrFailure());
 
             Assert.True(option.HasValue);
         }
@@ -77,7 +80,12 @@ namespace Sharpasonne.Tests
                 [typeof(PlaceTileGameAction)] = ImmutableList<IRule<IGameAction>>.Empty
             };
 
-            var engine = Engine.Create(rules.ToImmutableDictionary()).ValueOrFailure();
+            var engine = Engine
+                .Create(
+                    ImmutableQueue<IGameAction>.Empty,
+                    rules.ToImmutableDictionary(),
+                    Players.Create(2).ValueOrFailure())
+                .ValueOrFailure();
 
             // Act
             var newState = engine.Perform(MakePlaceTile(0, 0));
@@ -94,7 +102,12 @@ namespace Sharpasonne.Tests
                 [typeof(PlaceTileGameAction)] = ImmutableList<IRule<IGameAction>>.Empty
             };
 
-            var engine = Engine.Create(rules.ToImmutableDictionary()).ValueOrFailure();
+            var engine = Engine
+                .Create(
+                    ImmutableQueue<IGameAction>.Empty,
+                    rules.ToImmutableDictionary(),
+                    Players.Create(2).ValueOrFailure())
+                .ValueOrFailure();
 
             // Act
             var newState = engine.Perform(MakePlaceTile(0, 0));
