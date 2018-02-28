@@ -13,38 +13,38 @@ namespace Sharpasonne
     public class Players
     {
         /// <summary>
-        /// Least number of players allowed to create a <see cref="Players" /> instance.
+        /// Fewest number of players allowed to create a <see cref="Players" /> instance.
         /// </summary>
-        public const int LOWER_BOUND = 2;
+        public const int FewestPlayers = 2;
 
         /// <summary>
         /// Most number of players allowed to create a <see cref="Players" /> instance.
         /// </summary>
-        public const int UPPER_BOUND = 5;
+        public const int MostPlayers = 5;
 
         /// <summary>
         /// Range size of the lower and upper bound.
         /// </summary>
-        protected const int RANGE_SIZE = (UPPER_BOUND - LOWER_BOUND);
+        protected const int PlayerRangeSize = (MostPlayers - FewestPlayers);
 
         /// <summary>
-        /// Number of players, always within the inclusive range <see cref="LOWER_BOUND" />...
-        /// <see cref="UPPER_BOUND" />.
+        /// Number of players, always within the inclusive range <see cref="FewestPlayers" />...
+        /// <see cref="MostPlayers" />.
         /// </summary>
         public virtual int Count { get; }
 
         /// <summary>
         /// Attempts to create a <see cref="Players" /> instance, fails and returns a none if
-        /// <paramref name="count" /> is outside the inclusive player range <see cref="LOWER_BOUND" />
-        /// ...<see cref="UPPER_BOUND" />.
+        /// <paramref name="count" /> is outside the inclusive player range <see cref="FewestPlayers" />
+        /// ...<see cref="MostPlayers" />.
         /// </summary>
         public static Option<Players, Exception> Create(int count)
         {
-            if (!Enumerable.Range(LOWER_BOUND, RANGE_SIZE).Contains(count)) {
+            if (!Enumerable.Range(FewestPlayers, PlayerRangeSize).Contains(count)) {
                 return Option.None<Players, Exception>(
                     new ArgumentOutOfRangeException(
                         nameof(count),
-                        $"must be in the inclusive range ${LOWER_BOUND}-${UPPER_BOUND}."
+                        $"must be in the inclusive range ${FewestPlayers}-${MostPlayers}."
                     )
                 );
             }
@@ -53,11 +53,11 @@ namespace Sharpasonne
         }
 
         /// <summary>
-        /// Creates a <see cref="Players" /> instance with <see cref="LOWER_BOUND" /> number
+        /// Creates a <see cref="Players" /> instance with <see cref="FewestPlayers" /> number
         /// of players. This is only intended for use with Moq, yse <see cref="Create(int)" />
         /// instead.
         /// </summary>
-        protected Players() : this(LOWER_BOUND)
+        protected Players() : this(FewestPlayers)
         {
         }
 
