@@ -13,13 +13,13 @@ namespace Sharpasonne.Tests
     public class PlayersTests : UnitTest<PlaceTileGameAction>
     {
         [Fact]
-        public void Given_ZeroPlayers_When_CreatingPlayers_Then_NonIsArgumentOutOfRangeException()
+        public void Given_ZeroPlayers_When_CreatingPlayers_Then_NoneIsArgumentOutOfRangeException()
         {
             Players.Create(0).MatchNone(exception => Assert.IsType<ArgumentOutOfRangeException>(exception));
         }
 
         [Fact]
-        public void Given_1Player_When_CreatingPlayers_Then_NonIsArgumentOutOfRangeException()
+        public void Given_1Player_When_CreatingPlayers_Then_NoneIsArgumentOutOfRangeException()
         {
             Players.Create(1).MatchNone(exception => Assert.IsType<ArgumentOutOfRangeException>(exception));
         }
@@ -31,7 +31,7 @@ namespace Sharpasonne.Tests
         }
 
         [Fact]
-        public void Given_6Players_When_CreatingPlayers_Then_NonIsArgumentOutOfRangeException()
+        public void Given_6Players_When_CreatingPlayers_Then_NoneIsArgumentOutOfRangeException()
         {
             Players.Create(6).MatchNone(exception => Assert.IsType<ArgumentOutOfRangeException>(exception));
         }

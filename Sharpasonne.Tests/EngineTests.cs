@@ -42,7 +42,7 @@ namespace Sharpasonne.Tests
         }
 
         [Fact]
-        public void Given_ARuleSetWithANonGameActionKey_When_CreatingAnEngine_Then_None()
+        public void Given_ARuleSetWithANoneGameActionKey_When_CreatingAnEngine_Then_None()
         {
             var ruleSet = new Dictionary<Type, IImmutableList<IRule<IGameAction>>> {
                 [typeof(string)] = ImmutableList.Create<IRule<IGameAction>>(new DummyRule())
