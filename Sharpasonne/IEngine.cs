@@ -9,6 +9,8 @@ namespace Sharpasonne
     public interface IEngine
     {
         Board Board { get; }
+        Players Players { get; }
+        int CurrentPlayerTurn { get; }
         IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> Rules { get; }
     }
 }
