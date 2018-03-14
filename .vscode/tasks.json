@@ -5,9 +5,19 @@
     "tasks": [
         {
             "label": "Test",
-            "command": "dotnet test Sharpasonne.Tests",
+            "command": "dotnet test Sharpasonne.Tests && dotnet test Sharpasonne.Model.Tests",
             "type": "shell",
             "group": "test",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Build",
+            "command": "dotnet build Sharpasonne",
+            "type": "shell",
+            "group": "build",
             "presentation": {
                 "reveal": "silent"
             },
