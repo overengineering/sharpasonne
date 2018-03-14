@@ -7,13 +7,17 @@ namespace Sharpasonne.GameActions
 {
     public class EngineState : IEngine
     {
-        public EngineState(Board board, IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules)
+        public EngineState(Board board, IEngine engine)
         {
-            Board = board;
-            Rules = rules;
+            this.Board             = board;
+            this.Rules             = engine.Rules;
+            this.Players           = engine.Players;
+            this.CurrentPlayerTurn = engine.CurrentPlayerTurn;
         }
 
-        public Board                                                          Board { get; }
-        public IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> Rules { get; }
+        public Board                                                          Board             { get; }
+        public Players                                                        Players           { get; }
+        public int                                                            CurrentPlayerTurn { get; }
+        public IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> Rules             { get; }
     }
 }
