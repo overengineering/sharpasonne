@@ -46,7 +46,7 @@ namespace Sharpasonne.Tests.Rules
 
             return new PlaceTileGameAction(
                 new Point(x, y),
-                new Placement(tile, orientation)
+                new TilePlacement(tile, orientation)
             );
         }
 
@@ -54,7 +54,7 @@ namespace Sharpasonne.Tests.Rules
         {
             return new Board(actions.ToDictionary(
                 a => a.Point,
-                a => a.Placement
+                a => new Placement(a.Placement)
             ));
         }
     }

@@ -27,7 +27,7 @@ namespace Sharpasonne.Models
 
         public Board Set(Tile tile, Point point, Orientation orientation)
         {
-            var placement = new Placement(tile, orientation);
+            var placement = new Placement(new TilePlacement(tile, orientation));
 
             var grid = this.Grid.Add(point, placement);
 

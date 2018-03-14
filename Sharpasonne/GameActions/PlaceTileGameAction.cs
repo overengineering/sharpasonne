@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Immutable;
 using Sharpasonne.Models;
-using Sharpasonne.Rules;
 
 namespace Sharpasonne.GameActions
 {
     public class PlaceTileGameAction : IGameAction
     {
-        public Placement Placement { get; }
+        public TilePlacement Placement { get; }
         public Point Point { get; }
 
-        public PlaceTileGameAction(Point point, Placement placement)
+        public PlaceTileGameAction(Point point, TilePlacement placement)
         {
             this.Point = point;
             this.Placement = placement;
@@ -22,7 +19,7 @@ namespace Sharpasonne.GameActions
             return new EngineState(board, engine);
         }
     }
-
+    
     public class EngineState : IEngine
     {
         public EngineState(Board board, IEngine engine)

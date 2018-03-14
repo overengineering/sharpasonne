@@ -1,22 +1,28 @@
-using System;
+using JetBrains.Annotations;
+using Optional;
 
 namespace Sharpasonne.Models
 {
     public class Placement
     {
-        public Tile Tile { get; }
-        public Orientation Orientation { get; }
+        [NotNull] public TilePlacement           TilePlacement   { get; }
+                  public Option<MeeplePlacement> MeeplePlacement { get; }
 
-        public Placement(Tile tile, Orientation orientation)
+        public Placement([NotNull] TilePlacement tilePlacement)
         {
-            Tile = tile;
-            Orientation = orientation;
+            TilePlacement   = tilePlacement;
+            MeeplePlacement = Option.None<MeeplePlacement>();
         }
 
-        public IFeature[] GetEdge(Orientation orientation)
+        public Placement([NotNull] TilePlacement tilePlacement, MeeplePlacement meeplePlacement)
         {
-            var direction = orientation.RotateInverse(this.Orientation);
-            return this.Tile.GetEdge(direction);
+            TilePlacement   = tilePlacement;
+            MeeplePlacement = Option.Some(meeplePlacement);
+        }
+
+        public Placement AddMeeple(MeeplePlacement meeplePlacement)
+        {
+            return new Placement(this.TilePlacement, meeplePlacement);
         }
     }
 }
