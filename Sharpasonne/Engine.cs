@@ -10,29 +10,32 @@ using Sharpasonne.Rules;
 
 namespace Sharpasonne
 {
+    using IRuleMap = IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>;
+    using RuleMap = ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>;
+
     // TODO: Consider rename.
     public class Engine : IEngine
     {
-        public Board Board { get; } = new Board();
+        public Board Board { get; }
 
-        /// <summary>
-        /// Players collection for managing player stats and turns.
-        /// </summary>
+        /// <inheritdoc />
         public Players Players { get; }
 
-        /// <summary>
-        /// 1-index number of the player who's turn it is to play an action.
-        /// </summary>
+        /// <inheritdoc />
         public int CurrentPlayerTurn { get; } = 1;
 
-        public IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> Rules { get; }
-            = ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>.Empty;
+        /// <summary>
+        /// Map of IGameAction to rules that apply to that IGameAction.
+        /// Keys must be assignable from IGameAction.
+        /// </summary>
+        /// <remarks>Type system can't enforce this itself.</remarks>
+        public IRuleMap Rules { get; } = RuleMap.Empty;
 
         /// <summary>Attempts to create a Game engine.</summary>
         /// <param name="gameActions"></param>
         /// <param name="rules">Must provide list for every action to be used by
         /// Perform.</param>
-        /// <param name="gameActions"></param>
+        /// <returns>None if any key of <paramref name="rules"/> is not an <see cref="IGameAction"/>.</returns>
         public static Option<Engine, Exception> Create(
             [NotNull] IImmutableQueue<IGameAction>                                   gameActions,
             [NotNull] IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules,
@@ -49,24 +52,31 @@ namespace Sharpasonne
                 return Option.None<Engine, Exception>(new ArgumentOutOfRangeException(nameof(gameActions), message));
             }
 
-            return Option.Some<Engine, Exception>(new Engine(gameActions, rules, players));
+            return Option.Some<Engine, Exception>(new Engine(gameActions, rules, players, new Board()));
         }
 
         private Engine(
             [NotNull] IImmutableQueue<IGameAction>                                   gameActions,
             [NotNull] IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules,
-            [NotNull] Players                                                        players)
+            [NotNull] Players                                                        players,
+            [NotNull] Board                                                          board,
+                      int                                                            currentPlayerTurn = 1)
         {
-            this.Rules = rules;
-            this.Players = players;
+            this.Rules             = rules;
+            this.Players           = players;
+            this.Board             = board;
+            this.CurrentPlayerTurn = currentPlayerTurn;
         }
 
-        private Engine(IEngine engine)
+        private static Engine NextTurn(IEngine engine)
         {
-            this.Board = engine.Board;
-            this.Rules = engine.Rules;
-            this.Players = engine.Players;
-            this.CurrentPlayerTurn = engine.Players.NextPlayer(engine.CurrentPlayerTurn);
+            var nextTurn = new Engine(ImmutableQueue<IGameAction>.Empty,
+                engine.Rules,
+                engine.Players,
+                engine.Board,
+                engine.Players.NextPlayer(engine.CurrentPlayerTurn));
+
+            return nextTurn;
         }
 
         public Optional.Option<Engine, IEnumerable<string>> Perform(
@@ -84,7 +94,7 @@ namespace Sharpasonne
                 return Option.None<Engine, IEnumerable<string>>(new string[] {});
             }
 
-            var newEngine = new Engine(action.Perform(this));
+            var newEngine = Engine.NextTurn(action.Perform(this));
 
             return Option.Some<Engine, IEnumerable<string>>(newEngine);
         }
