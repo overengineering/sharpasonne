@@ -6,6 +6,10 @@ using Optional.Unsafe;
 
 namespace Sharpasonne.Rules
 {
+    /// <summary>
+    /// Ensures that the type of features on all edges of the tile to place
+    /// match the corresponding features on the surrounding tiles.
+    /// </summary>
     public class AdjacentFeaturesMatchRule : IRule<PlaceTileGameAction>
     {
         public bool Verify<T1>(IEngine engine, T1 action)
@@ -13,14 +17,16 @@ namespace Sharpasonne.Rules
         {
             var adjacent = engine.Board.GetAdjecentTiles(action.Point);
             var allMatch = adjacent
-                .Where(o => o.Value.HasValue)
-                .Select(o => (
-                    o.Key,
-                    o.Value.ValueOrFailure()
+                // Where orientation has a Placement
+                .Where(kv => kv.Value.HasValue)
+                .Select(kv => (
+                    kv.Key,
+                    // Never failure due to Where.
+                    kv.Value.ValueOrFailure() 
                 ))
-                .All(o =>
+                .All(kv =>
                 {
-                    (var direction, var placement) = o;
+                    (var direction, var placement) = kv;
 
                     switch (direction)
                     {
@@ -61,6 +67,10 @@ namespace Sharpasonne.Rules
             return allMatch;
         }
 
+        /// <summary>
+        /// Checks that the order of the types implementing <see cref="IFeatures"/> 
+        /// are aligned, thereby showing that the edges are matched.
+        /// </summary>
         protected bool EdgesMatch(
             IFeature[] from,
             IFeature[] to

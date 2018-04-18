@@ -10,6 +10,9 @@ using Sharpasonne.Rules;
 
 namespace Sharpasonne
 {
+    using IRuleMap = IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>;
+    using RuleMap = ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>;
+
     // TODO: Consider rename.
     public class Engine : IEngine
     {
@@ -26,8 +29,7 @@ namespace Sharpasonne
         /// Keys must be assignable from IGameAction.
         /// </summary>
         /// <remarks>Type system can't enforce this itself.</remarks>
-        public IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> Rules { get; }
-            = ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>.Empty;
+        public IRuleMap Rules { get; } = RuleMap.Empty;
 
         /// <summary>Attempts to create a Game engine.</summary>
         /// <param name="gameActions"></param>
@@ -50,7 +52,7 @@ namespace Sharpasonne
                 return Option.None<Engine, Exception>(new ArgumentOutOfRangeException(nameof(gameActions), message));
             }
 
-            return Option.Some<Engine, Exception>(new Engine(gameActions, rules, players, new Board();));
+            return Option.Some<Engine, Exception>(new Engine(gameActions, rules, players, new Board()));
         }
 
         private Engine(
@@ -58,7 +60,7 @@ namespace Sharpasonne
             [NotNull] IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules,
             [NotNull] Players                                                        players,
             [NotNull] Board                                                          board,
-                      int                                                            currentPlayerTurn = 0)
+                      int                                                            currentPlayerTurn = 1)
         {
             this.Rules             = rules;
             this.Players           = players;
