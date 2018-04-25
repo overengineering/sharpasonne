@@ -3,6 +3,9 @@ using Sharpasonne.GameActions;
 
 namespace Sharpasonne.Rules
 {
+    /// <summary>
+    /// Determine if the tile object (in memory) has not already been placed.
+    /// </summary>
     public class UniqueTileInstanceRule : IRule<PlaceTileGameAction>
     {
         public bool Verify<T1>(IEngine engine, T1 gameAction) where T1 : PlaceTileGameAction

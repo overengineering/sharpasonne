@@ -4,6 +4,10 @@ using JetBrains.Annotations;
 
 namespace Sharpasonne.Models
 {
+    /// <summary>
+    /// Ensure that a list of <see cref="IFeature"/> is valid when used in a
+    /// <see cref="Tile"/>.
+    /// </summary>
     public class FeatureListValidator
     {
         public bool IsValid([NotNull] IImmutableList<IFeature> featureList)
@@ -13,6 +17,7 @@ namespace Sharpasonne.Models
             return isValid;
         }
 
+        // TODO: make sure only one monastery, because they don't have connections.
         public bool CheckFeaturesDontOverlap(
             [NotNull] [ItemNotNull] IImmutableList<IFeature> featureList)
         {

@@ -1,17 +1,22 @@
 using System.Collections.Immutable;
 using Optional;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace Sharpasonne.Models
 {
+    /// <summary>
+    /// Tiles in play.
+    /// </summary>
     public class Board
     {
+        [NotNull]
         private ImmutableDictionary<Point, Placement> Grid { get; } 
             = ImmutableDictionary.Create<Point, Placement>();
 
         public Board() { }
 
-        public Board(IDictionary<Point, Placement> grid)
+        public Board([NotNull] IDictionary<Point, Placement> grid)
         {
             this.Grid = grid.ToImmutableDictionary();
         }
@@ -25,10 +30,19 @@ namespace Sharpasonne.Models
             return placement;
         }
 
-        public Board Set(Tile tile, Point point, Orientation orientation)
+        /// <summary>
+        /// Adds a tile to the board. Doesn't modify the current board, rather
+        /// create a new one.
+        /// </summary>
+        /// <param name="point">Where to place the tile on the board.</param>
+        /// <param name="orientation">How is the tile orientated.</param>
+        /// <returns>The new board.</returns>
+        [NotNull]
+        public Board Set([NotNull] Tile tile, Point point, Orientation orientation)
         {
             var placement = new Placement(new TilePlacement(tile, orientation));
 
+            // TODO: change this to a try add and return an Option.
             var grid = this.Grid.Add(point, placement);
 
             return new Board(grid);

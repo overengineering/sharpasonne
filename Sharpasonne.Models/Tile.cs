@@ -6,8 +6,14 @@ using JetBrains.Annotations;
 
 namespace Sharpasonne.Models
 {
+    /// <summary>
+    /// A Carcassonne Tile.
+    /// </summary>
     public class Tile
     {
+        /// <summary>
+        /// Unique set of 
+        /// </summary>
         public IImmutableList<IFeature> Features { get; }
 
         internal Tile([NotNull] IEnumerable<IFeature> features)

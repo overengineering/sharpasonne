@@ -1,15 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using JetBrains.Annotations;
 using Optional;
-using Sharpasonne.GameActions;
-using Sharpasonne.Models;
-using Sharpasonne.Rules;
 
 namespace Sharpasonne
 {
+    /// <summary>
+    /// Represent a group of players.
+    /// </summary>
     public class Players
     {
         /// <summary>
@@ -76,7 +73,7 @@ namespace Sharpasonne
         /// <example>
         /// Assert.Equals(1, Players.Create(2).NextPlayer(2));
         /// </example>
-        /// If <paramref name="players" /> is outside the number of players, 1 is always returned.
+        /// If <paramref name="player" /> is outside the number of players, 1 is always returned.
         /// </summary>
         /// <param name="player">1-index number of the player.</param>
         /// <returns>1-index number of the next player.</returns>

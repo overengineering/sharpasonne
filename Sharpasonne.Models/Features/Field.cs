@@ -1,12 +1,15 @@
 ﻿using System.Collections.Immutable;
+using JetBrains.Annotations;
 
 namespace Sharpasonne.Models.Features
 {
+    /// <inheritdoc/>
     public class Field : IFeature
     {
+        [NotNull]
         public IImmutableSet<Segment> Connections { get; }
 
-        public Field(IImmutableSet<Segment> connections)
+        public Field([NotNull] IImmutableSet<Segment> connections)
         {
             Connections = connections;
         }

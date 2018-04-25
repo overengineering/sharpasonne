@@ -1,14 +1,13 @@
 ﻿using System.Collections.Immutable;
+using JetBrains.Annotations;
 
 namespace Sharpasonne.Models.Features
 {
+    /// <inheritdoc/>
     public class Monastery : IFeature
     {
-        public IImmutableSet<Segment> Connections { get; }
-
-        public Monastery(IImmutableSet<Segment> connections)
-        {
-            Connections = connections;
-        }
+        [NotNull]
+        public IImmutableSet<Segment> Connections { get; } =
+            ImmutableHashSet<Segment>.Empty;
     }
 }

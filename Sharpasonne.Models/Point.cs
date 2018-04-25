@@ -1,5 +1,9 @@
 namespace Sharpasonne.Models
 {
+    /// <summary>
+    /// Everyone ends up making a point. This one represents a location on a
+    /// <see cref="Board"/>.
+    /// </summary>
     public struct Point
     {
         public int X { get; }

@@ -37,9 +37,9 @@ namespace Sharpasonne
         /// Perform.</param>
         /// <returns>None if any key of <paramref name="rules"/> is not an <see cref="IGameAction"/>.</returns>
         public static Option<Engine, Exception> Create(
-            [NotNull] IImmutableQueue<IGameAction>                                   gameActions,
-            [NotNull] IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules,
-            [NotNull] Players                                                        players)
+            [NotNull] IImmutableQueue<IGameAction> gameActions,
+            [NotNull] IRuleMap                     rules,
+            [NotNull] Players                      players)
         {
             var nonGameActions = rules.Keys
                 .Where(type => !typeof(IGameAction).IsAssignableFrom(type))
