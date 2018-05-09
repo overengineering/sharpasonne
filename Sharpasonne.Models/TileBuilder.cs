@@ -8,6 +8,10 @@ namespace Sharpasonne.Models
 {
     public class TileBuilder
     {
+        /// <summary>
+        /// Attempts to create a tile with the given features. Will only
+        /// succeed if the resultant tile is valid.
+        /// </summary>
         public Option<Tile> CreateTile([NotNull] IEnumerable<IFeature> features)
         {
             var featureList = features as IImmutableList<IFeature> ?? features.ToImmutableList();
