@@ -1,5 +1,8 @@
 namespace Sharpasonne.Models
 {
+    /// <summary>
+    /// A Tile when placed on a gameboard.
+    /// </summary>
     public class TilePlacement
     {
         public Tile        Tile        { get; }
