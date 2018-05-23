@@ -21,9 +21,9 @@ namespace Sharpasonne.Models
             this.Features = features.ToImmutableList();
         }
 
-        public IFeature[] GetEdge(Orientation direction)
+        public IFeature[] GetEdge(Edge edge)
         {
-            var segments = this.GetSegments(direction);
+            var segments = this.GetSegments(edge);
             var features = segments.Select(segment =>
                 this.Features.First(feature =>
                     feature.Connections.Contains(segment)
@@ -37,33 +37,33 @@ namespace Sharpasonne.Models
         /// Order of the contents matters in order to match the edges in 
         /// AdjacentFeaturesMatch rule. 
         /// </summary>
-        protected Segment[] GetSegments(Orientation direction)
+        protected Segment[] GetSegments(Edge edge)
         {
             // TODO: Test because of the order issue
-            switch (direction)
+            switch (edge)
             {
-                case Orientation.Top:
+                case Edge.Top:
                     return new[]
                     {
                         Segment.TopLeft,
                         Segment.Top,
                         Segment.TopRight,
                     };
-                case Orientation.Bottom:
+                case Edge.Bottom:
                     return new[]
                     {
                         Segment.BottomLeft,
                         Segment.Bottom,
                         Segment.BottomRight,
                     };
-                case Orientation.Left:
+                case Edge.Left:
                     return new[]
                     {
                         Segment.LeftTop,
                         Segment.Left,
                         Segment.LeftBottom,
                     };
-                case Orientation.Right:
+                case Edge.Right:
                     return new[]
                     {
                         Segment.RightTop,

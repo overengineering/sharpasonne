@@ -38,7 +38,7 @@ namespace Sharpasonne.Tests.Rules
             int x,
             int y,
             Tile tile = null,
-            Orientation orientation = Orientation.Top)
+            Rotation rotation = Rotation.None)
         {
             tile = tile ?? new TileBuilder()
                 .CreateTile(Enumerable.Empty<IFeature>())
@@ -46,7 +46,7 @@ namespace Sharpasonne.Tests.Rules
 
             return new PlaceTileGameAction(
                 new Point(x, y),
-                new TilePlacement(tile, orientation)
+                new TilePlacement(tile, rotation)
             );
         }
 

@@ -5,21 +5,21 @@ namespace Sharpasonne.Models
     /// </summary>
     public class TilePlacement
     {
-        public Tile        Tile        { get; }
-        public Orientation Orientation { get; }
+        public Tile     Tile     { get; }
+        public Rotation Rotation { get; }
 
-        public TilePlacement(Tile tile, Orientation orientation)
+        public TilePlacement(Tile tile, Rotation rotation)
         {
-            Tile        = tile;
-            Orientation = orientation;
+            Tile     = tile;
+            Rotation = rotation;
         }
 
         /// <summary>
         /// Distinct features along the given edge in clockwise order.
         /// </summary>
-        public IFeature[] GetEdge(Orientation orientation)
+        public IFeature[] GetFeaturesAt(Edge edge)
         {
-            var direction = orientation.RotateInverse(this.Orientation);
+            var direction = edge.RotateAntiClockwise(this.Rotation);
             return this.Tile.GetEdge(direction);
         }
     }
