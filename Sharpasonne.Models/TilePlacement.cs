@@ -14,6 +14,9 @@ namespace Sharpasonne.Models
             Orientation = orientation;
         }
 
+        /// <summary>
+        /// Distinct features along the given edge in clockwise order.
+        /// </summary>
         public IFeature[] GetEdge(Orientation orientation)
         {
             var direction = orientation.RotateInverse(this.Orientation);
