@@ -10,7 +10,6 @@ using Sharpasonne.Rules;
 
 namespace Sharpasonne
 {
-    using IRuleMap = IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>;
     using RuleMap = ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>;
 
     // TODO: Consider rename.
@@ -29,34 +28,25 @@ namespace Sharpasonne
         /// Keys must be assignable from IGameAction.
         /// </summary>
         /// <remarks>Type system can't enforce this itself.</remarks>
-        public IRuleMap Rules { get; } = RuleMap.Empty;
+        public IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> Rules { get; }
+            = RuleMap.Empty;
 
-        /// <summary>Attempts to create a Game engine.</summary>
-        /// <param name="gameActions"></param>
+        /// <summary>
+        /// Starts a Game.
+        /// </summary>
         /// <param name="rules">Must provide list for every action to be used by
-        /// Perform.</param>
-        /// <returns>None if any key of <paramref name="rules"/> is not an <see cref="IGameAction"/>.</returns>
-        public static Option<Engine, Exception> Create(
-            [NotNull] IImmutableQueue<IGameAction> gameActions,
-            [NotNull] IRuleMap                     rules,
+        /// <see cref="Perform"/>.</param>
+        public Engine(
+            [NotNull] RuleMapBuilder               rules,
             [NotNull] Players                      players)
+            : this(rules.RuleMap, players, new Board())
         {
-            var nonGameActions = rules.Keys
-                .Where(type => !typeof(IGameAction).IsAssignableFrom(type))
-                .ToList();
-
-            if (nonGameActions.Any())
-            {
-                var typeNames = string.Join(", ", nonGameActions.Select(t => t.FullName));
-                var message = $"'{typeNames}' does not implement {nameof(IGameAction)}";
-                return Option.None<Engine, Exception>(new ArgumentOutOfRangeException(nameof(gameActions), message));
-            }
-
-            return Option.Some<Engine, Exception>(new Engine(gameActions, rules, players, new Board()));
         }
 
+        /// <summary>
+        /// Continues a Game.
+        /// </summary>
         private Engine(
-            [NotNull] IImmutableQueue<IGameAction>                                   gameActions,
             [NotNull] IImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>> rules,
             [NotNull] Players                                                        players,
             [NotNull] Board                                                          board,
@@ -70,7 +60,7 @@ namespace Sharpasonne
 
         private static Engine NextTurn(IEngine engine)
         {
-            var nextTurn = new Engine(ImmutableQueue<IGameAction>.Empty,
+            var nextTurn = new Engine(
                 engine.Rules,
                 engine.Players,
                 engine.Board,

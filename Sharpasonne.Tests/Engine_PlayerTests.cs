@@ -19,15 +19,10 @@ namespace Sharpasonne.Tests
 
             mockPlayers.SetupGet(e => e.Count).Returns(players);
 
-            var option = Engine.Create(
-                ImmutableQueue<IGameAction>.Empty,
-                new Dictionary<Type, IImmutableList<IRule<IGameAction>>> {
-                    [typeof(PlaceTileGameAction)] = ImmutableList<IRule<IGameAction>>.Empty
-                }.ToImmutableDictionary(),
+            return new Engine(
+                new RuleMapBuilder().Set(ImmutableList<IRule<PlaceTileGameAction>>.Empty),
                 mockPlayers.Object
             );
-
-            return option.ValueOrFailure();
         }
 
         [Fact]
