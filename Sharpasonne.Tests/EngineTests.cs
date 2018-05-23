@@ -31,61 +31,20 @@ namespace Sharpasonne.Tests
         [Fact]
         public void When_CreatingAnEngine_Then_BoardIsNotNull()
         {
-            var engine = Engine
-                .Create(
-                    ImmutableQueue<IGameAction>.Empty,
-                    ImmutableDictionary<Type, IImmutableList<IRule<IGameAction>>>.Empty,
-                    Players.Create(2).ValueOrFailure())
-                .ValueOrFailure();
+            var engine = new Engine(
+                new RuleMapBuilder(),
+                Players.Create(2).ValueOrFailure());
 
             Assert.NotNull(engine.Board);
-        }
-
-        [Fact]
-        public void Given_ARuleSetWithANoneGameActionKey_When_CreatingAnEngine_Then_None()
-        {
-            var ruleSet = new Dictionary<Type, IImmutableList<IRule<IGameAction>>> {
-                [typeof(string)] = ImmutableList.Create<IRule<IGameAction>>(new DummyRule())
-            };
-
-            var option = Engine.Create(
-                ImmutableQueue<IGameAction>.Empty,
-                ruleSet.ToImmutableDictionary(),
-                Players.Create(2).ValueOrFailure());
-
-            Assert.False(option.HasValue);
-            option.MatchNone((exception) => Assert.IsType<ArgumentOutOfRangeException>(exception));
-        }
-
-        [Fact]
-        public void Given_ARuleSetWithAGameActionKey_When_CreatingAnEngine_Then_Some()
-        {
-            var ruleSet = new Dictionary<Type, IImmutableList<IRule<IGameAction>>> {
-                [typeof(DummyGameAction)] = ImmutableList.Create<IRule<IGameAction>>(new DummyRule())
-            };
-
-            var option = Engine.Create(
-                ImmutableQueue<IGameAction>.Empty,
-                ruleSet.ToImmutableDictionary(),
-                Players.Create(2).ValueOrFailure());
-
-            Assert.True(option.HasValue);
         }
 
         [Fact]
         public void When_PlacingFirstTile_Then_ReturnsANewState()
         {
             // Arrange
-            var rules = new Dictionary<Type, IImmutableList<IRule<IGameAction>>> {
-                [typeof(PlaceTileGameAction)] = ImmutableList<IRule<IGameAction>>.Empty
-            };
-
-            var engine = Engine
-                .Create(
-                    ImmutableQueue<IGameAction>.Empty,
-                    rules.ToImmutableDictionary(),
-                    Players.Create(2).ValueOrFailure())
-                .ValueOrFailure();
+            var engine = new Engine(
+                new RuleMapBuilder().Set(ImmutableList<IRule<PlaceTileGameAction>>.Empty),
+                Players.Create(2).ValueOrFailure());
 
             // Act
             var newState = engine.Perform(MakePlaceTile(0, 0));
@@ -98,16 +57,9 @@ namespace Sharpasonne.Tests
         public void When_PlacingFirstTile_Then_ReturnsNewStateWithSinglePlacedTile()
         {
             // Arrange
-            var rules = new Dictionary<Type, IImmutableList<IRule<IGameAction>>> {
-                [typeof(PlaceTileGameAction)] = ImmutableList<IRule<IGameAction>>.Empty
-            };
-
-            var engine = Engine
-                .Create(
-                    ImmutableQueue<IGameAction>.Empty,
-                    rules.ToImmutableDictionary(),
-                    Players.Create(2).ValueOrFailure())
-                .ValueOrFailure();
+            var engine = new Engine(
+                new RuleMapBuilder().Set(ImmutableList<IRule<PlaceTileGameAction>>.Empty),
+                Players.Create(2).ValueOrFailure());
 
             // Act
             var newState = engine.Perform(MakePlaceTile(0, 0));
