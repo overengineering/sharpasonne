@@ -30,32 +30,32 @@ namespace Sharpasonne.Rules
 
                     switch (direction)
                     {
-                        case Orientation.Top:
+                        case Rotation.None:
                         {
                             return this.EdgesMatch(
-                                placement.TilePlacement.GetEdge(Orientation.Bottom),
-                                action.Placement.GetEdge(Orientation.Top)
+                                placement.TilePlacement.GetFeaturesAt(Edge.Bottom),
+                                action.Placement.GetFeaturesAt(Edge.Top)
                             );
                         }
-                        case Orientation.Bottom:
+                        case Rotation.Half:
                         {
                             return this.EdgesMatch(
-                                placement.TilePlacement.GetEdge(Orientation.Top),
-                                action.Placement.GetEdge(Orientation.Bottom)
+                                placement.TilePlacement.GetFeaturesAt(Edge.Top),
+                                action.Placement.GetFeaturesAt(Edge.Bottom)
                             );
                         }
-                        case Orientation.Left:
+                        case Rotation.ThreeQuarter:
                         {
                             return this.EdgesMatch(
-                                placement.TilePlacement.GetEdge(Orientation.Right),
-                                action.Placement.GetEdge(Orientation.Left)
+                                placement.TilePlacement.GetFeaturesAt(Edge.Right),
+                                action.Placement.GetFeaturesAt(Edge.Left)
                             );
                         }
-                        case Orientation.Right:
+                        case Rotation.Quarter:
                         {
                             return this.EdgesMatch(
-                                placement.TilePlacement.GetEdge(Orientation.Left),
-                                action.Placement.GetEdge(Orientation.Right)
+                                placement.TilePlacement.GetFeaturesAt(Edge.Left),
+                                action.Placement.GetFeaturesAt(Edge.Right)
                             );
                         }
 

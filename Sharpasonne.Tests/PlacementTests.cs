@@ -26,10 +26,10 @@ namespace Sharpasonne.Tests
                 })
                 .ValueOrFailure();
 
-            var placement = new TilePlacement(tile, Orientation.Top);
+            var placement = new TilePlacement(tile, Rotation.None);
 
             // Act
-            var actualEdge = placement.GetEdge(Orientation.Top);
+            var actualEdge = placement.GetFeaturesAt(Edge.Top);
 
             // Assert
             IFeature[] expectedEdge = {
@@ -56,10 +56,10 @@ namespace Sharpasonne.Tests
                 })
                 .ValueOrFailure();
 
-            var placement = new TilePlacement(tile, Orientation.Top);
+            var placement = new TilePlacement(tile, Rotation.None);
 
             // Act
-            var actualEdge = placement.GetEdge(Orientation.Right);
+            var actualEdge = placement.GetFeaturesAt(Edge.Right);
 
             // Assert
             IFeature[] expectedEdge = {
@@ -86,10 +86,10 @@ namespace Sharpasonne.Tests
                 })
                 .ValueOrFailure();
 
-            var placement = new TilePlacement(tile, Orientation.Right);
+            var placement = new TilePlacement(tile, Rotation.Quarter);
 
             // Act
-            var actualEdge = placement.GetEdge(Orientation.Bottom);
+            var actualEdge = placement.GetFeaturesAt(Edge.Bottom);
 
             // Assert
             IFeature[] expectedEdge = {

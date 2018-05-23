@@ -16,7 +16,7 @@ namespace Sharpasonne.GameActions
 
         public IEngine Perform(IEngine engine)
         {
-            var board = engine.Board.Set(Placement.Tile, Point, Placement.Orientation);
+            var board = engine.Board.Set(Placement.Tile, Point, Placement.Rotation);
             return new EngineState(board, engine);
         }
     }

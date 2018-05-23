@@ -35,12 +35,12 @@ namespace Sharpasonne.Models
         /// create a new one.
         /// </summary>
         /// <param name="point">Where to place the tile on the board.</param>
-        /// <param name="orientation">How is the tile orientated.</param>
+        /// <param name="rotation">How is the tile orientated.</param>
         /// <returns>The new board.</returns>
         [NotNull]
-        public Board Set([NotNull] Tile tile, Point point, Orientation orientation)
+        public Board Set([NotNull] Tile tile, Point point, Rotation rotation)
         {
-            var placement = new Placement(new TilePlacement(tile, orientation));
+            var placement = new Placement(new TilePlacement(tile, rotation));
 
             // TODO: change this to a try add and return an Option.
             var grid = this.Grid.Add(point, placement);
@@ -53,13 +53,13 @@ namespace Sharpasonne.Models
             return this.Grid;
         }
 
-        public IImmutableDictionary<Orientation, Option<Placement>> GetAdjecentTiles(Point point)
+        public IImmutableDictionary<Rotation, Option<Placement>> GetAdjecentTiles(Point point)
         {
-            var adjecentTiles = new Dictionary<Orientation, Option<Placement>> {
-                [Orientation.Top] = Get(new Point(point.X, point.Y + 1)),
-                [Orientation.Right] = Get(new Point(point.X + 1, point.Y)),
-                [Orientation.Bottom] = Get(new Point(point.X, point.Y - 1)),
-                [Orientation.Left] = Get(new Point(point.X - 1, point.Y)),
+            var adjecentTiles = new Dictionary<Rotation, Option<Placement>> {
+                [Rotation.None] = Get(new Point(point.X, point.Y + 1)),
+                [Rotation.Quarter] = Get(new Point(point.X + 1, point.Y)),
+                [Rotation.Half] = Get(new Point(point.X, point.Y - 1)),
+                [Rotation.ThreeQuarter] = Get(new Point(point.X - 1, point.Y)),
             }.ToImmutableDictionary();
 
             return adjecentTiles;

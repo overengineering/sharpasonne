@@ -10,27 +10,27 @@ namespace Sharpasonne.Models.Tests
         [Fact]
         public void Given_AnUnrotatedOrientation_WhenRotatingByTop_Then_ReturnSameOrientation()
         {
-            Assert.Equal(Orientation.Top, Orientation.Top.Rotate(Orientation.Top));
+            Assert.Equal(Edge.Top, Edge.Top.RotateClockwise(Rotation.None));
         }
 
         [Fact]
         public void WhenRotatingByEVERYTHING_Then_IsCorrect()
         {
-            Assert.Equal(Orientation.Right, Orientation.Top.Rotate(Orientation.Right));
-            Assert.Equal(Orientation.Top, Orientation.Right.Rotate(Orientation.Left));
-            Assert.Equal(Orientation.Bottom, Orientation.Right.Rotate(Orientation.Right));
-            Assert.Equal(Orientation.Top, Orientation.Bottom.Rotate(Orientation.Bottom));
-            Assert.Equal(Orientation.Bottom, Orientation.Left.Rotate(Orientation.Left));
+            Assert.Equal(Edge.Right, Edge.Top.RotateClockwise(Rotation.Quarter));
+            Assert.Equal(Edge.Top, Edge.Right.RotateClockwise(Rotation.ThreeQuarter));
+            Assert.Equal(Edge.Bottom, Edge.Right.RotateClockwise(Rotation.Quarter));
+            Assert.Equal(Edge.Top, Edge.Bottom.RotateClockwise(Rotation.Half));
+            Assert.Equal(Edge.Bottom, Edge.Left.RotateClockwise(Rotation.ThreeQuarter));
         }
 
         [Fact]
         public void WhenRotatingInverseByEVERYTHING_Then_IsCorrect()
         {
-            Assert.Equal(Orientation.Left, Orientation.Top.RotateInverse(Orientation.Right));
-            Assert.Equal(Orientation.Bottom, Orientation.Right.RotateInverse(Orientation.Left));
-            Assert.Equal(Orientation.Top, Orientation.Right.RotateInverse(Orientation.Right));
-            Assert.Equal(Orientation.Top, Orientation.Bottom.RotateInverse(Orientation.Bottom));
-            Assert.Equal(Orientation.Top, Orientation.Left.RotateInverse(Orientation.Left));
+            Assert.Equal(Edge.Left, Edge.Top.RotateAntiClockwise(Rotation.Quarter));
+            Assert.Equal(Edge.Bottom, Edge.Right.RotateAntiClockwise(Rotation.ThreeQuarter));
+            Assert.Equal(Edge.Top, Edge.Right.RotateAntiClockwise(Rotation.Quarter));
+            Assert.Equal(Edge.Top, Edge.Bottom.RotateAntiClockwise(Rotation.Half));
+            Assert.Equal(Edge.Top, Edge.Left.RotateAntiClockwise(Rotation.ThreeQuarter));
         }
     }
 }

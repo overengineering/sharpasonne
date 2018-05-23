@@ -152,8 +152,8 @@ namespace Sharpasonne.Tests.Rules
                 })
                 .ValueOrFailure();
 
-            var leftAction  = MakePlaceTile(0, 0, leftTile,  Orientation.Top);
-            var rightAction = MakePlaceTile(1, 0, rightTile, Orientation.Left);
+            var leftAction  = MakePlaceTile(0, 0, leftTile,  Rotation.None);
+            var rightAction = MakePlaceTile(1, 0, rightTile, Rotation.ThreeQuarter);
             var board       = MakeBoard(leftAction);
             var engine      = MockEngine(board);
 
@@ -199,9 +199,9 @@ namespace Sharpasonne.Tests.Rules
                 })
                 .ValueOrFailure();
 
-            var topAction    = MakePlaceTile(0, 1, topTile,    Orientation.Right);
-            var centreAction = MakePlaceTile(0, 0,  centreTile, Orientation.Bottom);
-            var bottomAction = MakePlaceTile(0, -1,  bottomTile, Orientation.Left);
+            var topAction    = MakePlaceTile(0, 1, topTile,    Rotation.Quarter);
+            var centreAction = MakePlaceTile(0, 0,  centreTile, Rotation.Half);
+            var bottomAction = MakePlaceTile(0, -1,  bottomTile, Rotation.ThreeQuarter);
             var board        = MakeBoard(topAction, bottomAction);
             var engine       = MockEngine(board);
 
