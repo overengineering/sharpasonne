@@ -2,6 +2,7 @@ using Sharpasonne.Models;
 
 namespace Sharpasonne.GameActions
 {
+    /// <inheritdoc />
     public class PlaceTileGameAction : IGameAction
     {
         public TilePlacement Placement { get; }
