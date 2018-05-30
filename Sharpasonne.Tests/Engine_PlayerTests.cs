@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Sharpasonne.Tests
 {
-    public class Engine_PlayerTests : UnitTest<PlaceTileGameAction>
+    public class Engine_PlayerTests : UnitTest
     {
         protected Engine CreateEngine(int players)
         {

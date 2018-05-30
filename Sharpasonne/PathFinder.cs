@@ -30,13 +30,14 @@ namespace Sharpasonne
             Placement placement, 
             IFeature feature)
         {
+/*
             // If recursion has already been on this feature return the dictionary...
             if(featureTile.ContainsKey(feature)){
                 return featureTile;
             }
 
             // ...otherwise add self and recurse with the adjecent tiles.
-            featureTile.Add(feature, placement.Tile);
+            featureTile.Add(feature, placement.TilePlacement.Tile);
             
             var adjecentTiles = board.GetAdjecentPointsAndPlacements(point);
             var adjecentFeatureTiles = adjecentTiles
@@ -48,6 +49,8 @@ namespace Sharpasonne
                     exhaustedPoints, at.Key, board, at.Value));
 
             return featureTile;
+*/
+            return new Dictionary<IFeature, Tile>();
         }
     }
 }
