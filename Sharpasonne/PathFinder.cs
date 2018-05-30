@@ -43,16 +43,17 @@ namespace Sharpasonne
             featureTile.Add(feature, placement.TilePlacement.Tile);
 
             var adjecentTiles = board.GetAdjecentPointsAndPlacements(point);
-            var adjecentFeatureTiles = adjecentTiles
+            foreach(var at in adjecentTiles
                 .Where(at => at.Value.HasValue)
                 .Select(at =>
-                    new KeyValuePair<Point, Placement>(at.Key, at.Value.ValueOrFailure()))
-                .SelectMany(at => FindFeatureTilesRecursevely(
+                    new KeyValuePair<Point, Placement>(at.Key, at.Value.ValueOrFailure())))
+            {
+                FindFeatureTilesRecursevely(
                     // TODO: extract what on the adjecentFeatureMatchRule gives the matching edges.
-                    featureTile, at.Key, board, at.Value, feature))
-                .ToDictionary(x => x.Key, x => x.Value);
+                    featureTile, at.Key, board, at.Value, at.Value.TilePlacement.Tile.Features.FirstOrDefault());
+            }
 
-            return adjecentFeatureTiles;
+            return featureTile;
         }
     }
 }
