@@ -19,7 +19,7 @@ namespace Sharpasonne.Tests
             var topTileCity = new City(ImmutableHashSet.Create(
                         Segment.Bottom
                     ),
-                    false);
+                    hasShield: false);
             var aboveTile = new TileBuilder()
                 .CreateTile(new []
                 {
@@ -33,14 +33,13 @@ namespace Sharpasonne.Tests
                     new City(ImmutableHashSet.Create(
                         Segment.Top
                     ),
-                    false),
+                    hasShield: false),
                 })
                 .ValueOrFailure();
 
             var aboveAction = MakePlaceTile(0, 1, aboveTile);
             var belowAction = MakePlaceTile(0, 0, belowTile);
             var board = MakeBoard(aboveAction, belowAction);
-            var engine = MockEngine(board);
         
             //When
             var cityTiles = pathFinder.FindFeatureTiles(

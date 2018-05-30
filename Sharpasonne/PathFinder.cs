@@ -14,43 +14,45 @@ namespace Sharpasonne
             Point point, Board board, IFeature feature)
         {
             var placementOption = board.Get(point);
-            return placementOption.Match(placement =>
-            {
-                var featureTiles = FindFeatureTilesRecursevely(new Dictionary<IFeature, Tile>(), point, board, placement, feature);
+            var findFeatureTiles = placementOption.Match(placement =>
+                {
+                    var featureTiles = FindFeatureTilesRecursevely(new Dictionary<IFeature, Tile>(), point, board,
+                        placement,                                                                   feature);
 
-                return Option.Some<IImmutableDictionary<IFeature, Tile>>(featureTiles.ToImmutableDictionary());
-            },
-            () => Option.None<IImmutableDictionary<IFeature, Tile>>());
+                    return Option.Some<IImmutableDictionary<IFeature, Tile>>(featureTiles.ToImmutableDictionary());
+                },
+                Option.None<IImmutableDictionary<IFeature, Tile>>);
+
+            return findFeatureTiles;
         }
 
         private Dictionary<IFeature, Tile> FindFeatureTilesRecursevely(
             Dictionary<IFeature, Tile> featureTile,
-            Point point, 
-            Board board, 
-            Placement placement, 
-            IFeature feature)
+            Point                      point,
+            Board                      board,
+            Placement                  placement,
+            IFeature                   feature)
         {
-/*
             // If recursion has already been on this feature return the dictionary...
-            if(featureTile.ContainsKey(feature)){
+            if (featureTile.ContainsKey(feature))
+            {
                 return featureTile;
             }
 
             // ...otherwise add self and recurse with the adjecent tiles.
             featureTile.Add(feature, placement.TilePlacement.Tile);
-            
+
             var adjecentTiles = board.GetAdjecentPointsAndPlacements(point);
             var adjecentFeatureTiles = adjecentTiles
                 .Where(at => at.Value.HasValue)
                 .Select(at =>
                     new KeyValuePair<Point, Placement>(at.Key, at.Value.ValueOrFailure()))
-                .Select(at => FindFeatureTilesRecursevely(
+                .SelectMany(at => FindFeatureTilesRecursevely(
                     // TODO: extract what on the adjecentFeatureMatchRule gives the matching edges.
-                    exhaustedPoints, at.Key, board, at.Value));
+                    featureTile, at.Key, board, at.Value, feature))
+                .ToDictionary(x => x.Key, x => x.Value);
 
-            return featureTile;
-*/
-            return new Dictionary<IFeature, Tile>();
+            return adjecentFeatureTiles;
         }
     }
 }
