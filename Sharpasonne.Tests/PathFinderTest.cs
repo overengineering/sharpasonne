@@ -16,13 +16,14 @@ namespace Sharpasonne.Tests
         {
             //Given
             var pathFinder = new PathFinder();
+            var topTileCity = new City(ImmutableHashSet.Create(
+                        Segment.Bottom
+                    ),
+                    false);
             var aboveTile = new TileBuilder()
                 .CreateTile(new []
                 {
-                    new City(ImmutableHashSet.Create(
-                        Segment.Bottom
-                    ),
-                    false),
+                    topTileCity,
                 })
                 .ValueOrFailure();
 
@@ -43,12 +44,12 @@ namespace Sharpasonne.Tests
         
             //When
             var cityTiles = pathFinder.FindFeatureTiles(
+                aboveAction.Point,
                 board,
-                aboveAction.Placement,
-                Segment.Bottom);
+                topTileCity);
             
             //Then
-            Assert.Equal(2, cityTiles.Count);
+            Assert.Equal(2, cityTiles.ValueOrFailure().Count);
         }
     }
 }
