@@ -50,5 +50,45 @@ namespace Sharpasonne.Tests
             //Then
             Assert.Equal(2, cityTiles.ValueOrFailure().Count);
         }
+
+        [Fact]
+        public void _2DisconnectedCities_GettingAllFeatureTiles_ReturnsOneTiles()
+        {
+            //Given
+            var pathFinder = new PathFinder();
+            var topTileCity = new City(ImmutableHashSet.Create(
+                        Segment.Top
+                    ),
+                    hasShield: false);
+            var aboveTile = new TileBuilder()
+                .CreateTile(new []
+                {
+                    topTileCity,
+                })
+                .ValueOrFailure();
+
+            var belowTile = new TileBuilder()
+                .CreateTile(new []
+                {
+                    new City(ImmutableHashSet.Create(
+                        Segment.Top
+                    ),
+                    hasShield: false),
+                })
+                .ValueOrFailure();
+
+            var aboveAction = MakePlaceTile(0, 1, aboveTile);
+            var belowAction = MakePlaceTile(0, 0, belowTile);
+            var board = MakeBoard(aboveAction, belowAction);
+        
+            //When
+            var cityTiles = pathFinder.FindFeatureTiles(
+                aboveAction.Point,
+                board,
+                topTileCity);
+            
+            //Then
+            Assert.Equal(1, cityTiles.ValueOrFailure().Count);
+        }
     }
 }
