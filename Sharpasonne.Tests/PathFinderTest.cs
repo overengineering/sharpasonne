@@ -52,22 +52,15 @@ namespace Sharpasonne.Tests
         }
 
         [Fact]
-        public void _2DisconnectedCities_GettingAllFeatureTiles_ReturnsOneTiles()
+        public void FindFeatureTiles_Given_OneTileWithOneCityFeatureIsPlaced_Then_ReturnsOneTile()
         {
-            //Given
             var pathFinder = new PathFinder();
             var topTileCity = new City(ImmutableHashSet.Create(
                         Segment.Top
                     ),
                     hasShield: false);
-            var aboveTile = new TileBuilder()
-                .CreateTile(new []
-                {
-                    topTileCity,
-                })
-                .ValueOrFailure();
 
-            var belowTile = new TileBuilder()
+            var tile = new TileBuilder()
                 .CreateTile(new []
                 {
                     new City(ImmutableHashSet.Create(
@@ -76,14 +69,13 @@ namespace Sharpasonne.Tests
                     hasShield: false),
                 })
                 .ValueOrFailure();
-
-            var aboveAction = MakePlaceTile(0, 1, aboveTile);
-            var belowAction = MakePlaceTile(0, 0, belowTile);
-            var board = MakeBoard(aboveAction, belowAction);
+            
+            var placeTileGameAction = MakePlaceTile(0, 0, tile);
+            var board = MakeBoard(placeTileGameAction);
         
             //When
             var cityTiles = pathFinder.FindFeatureTiles(
-                aboveAction.Point,
+                placeTileGameAction.Point,
                 board,
                 topTileCity);
             
