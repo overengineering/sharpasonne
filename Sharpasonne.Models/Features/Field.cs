@@ -1,4 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using JetBrains.Annotations;
 
 namespace Sharpasonne.Models.Features
@@ -9,9 +11,14 @@ namespace Sharpasonne.Models.Features
         [NotNull]
         public IImmutableSet<Segment> Connections { get; }
 
-        public Field([NotNull] IImmutableSet<Segment> connections)
+        public Field([NotNull] IEnumerable<Segment> connections)
         {
-            Connections = connections;
+            Connections = connections.ToImmutableHashSet();
+        }
+
+        public Field([NotNull] params Segment[] connections)
+            : this(connections.AsEnumerable())
+        {
         }
     }
 }

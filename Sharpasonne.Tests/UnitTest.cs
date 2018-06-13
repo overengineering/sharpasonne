@@ -17,7 +17,7 @@ namespace Sharpasonne.Tests
             Rotation rotation = Rotation.None)
         {
             tile = tile ?? new TileBuilder()
-                .CreateTile(Enumerable.Empty<IFeature>())
+                .CreateTile()
                 .ValueOrFailure();
 
             return new PlaceTileGameAction(
