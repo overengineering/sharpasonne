@@ -51,6 +51,12 @@ namespace Sharpasonne
             featureTile.Add(feature, placement.TilePlacement.Tile);
             
             //feature.Connections.
+            //var normalisedTile = new TileBuilder()
+            //    .CreateTile(placement.TilePlacement.Tile.Features.ToArray());
+            //foreach (var feature1 in normalisedTile.ValueOrFailure().Features)
+            //{
+            //    feature1.Connections = feature1.Connections.Select(c => c.rota)
+            //}
 
             var possibleNeighbours = board.GetAdjecentPointsAndPlacements(point);
             var neighbours = possibleNeighbours
@@ -63,6 +69,7 @@ namespace Sharpasonne
             foreach (var neighbour in neighbours)
             {
                 //tile.Tile.TilePlacement.GetFeaturesAt()
+                //var segment = feature.Connections.
 
                 FindFeatureTilesRecursevely(
                     // TODO: extract what on the adjecentFeatureMatchRule gives the matching edges.
