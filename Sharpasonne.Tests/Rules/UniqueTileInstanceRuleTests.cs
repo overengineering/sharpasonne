@@ -27,7 +27,7 @@ namespace Sharpasonne.Tests.Rules
             var firstAction  = MakePlaceTile(0, 0);
             var board        = MakeBoard(firstAction);
             var engine       = MockEngine(board);
-            var secondAction = MakePlaceTile(0, 0, firstAction.Placement.Tile);
+            var secondAction = MakePlaceTile(0, 0, firstAction.Tile);
 
             AssertFalse<UniqueTileInstanceRule>(engine, secondAction);
         }

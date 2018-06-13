@@ -13,10 +13,10 @@ namespace Sharpasonne.Rules
             var allTiles = engine.Board
                 .ToImmutableDictionary()
                 .Values
-                .Select(placement => placement.TilePlacement.Tile);
+                .Select(placement => placement.Tile);
 
             return !allTiles
-                .Contains(gameAction.Placement.Tile);
+                .Contains(gameAction.Tile);
         }
     }
 }
