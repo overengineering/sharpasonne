@@ -33,29 +33,29 @@ namespace Sharpasonne.Rules
                         case Rotation.None:
                         {
                             return this.EdgesMatch(
-                                placement.TilePlacement.GetFeaturesAt(Edge.Bottom),
-                                action.Placement.GetFeaturesAt(Edge.Top)
+                                placement.Tile.GetEdge(Edge.Bottom),
+                                action.Tile.GetEdge(Edge.Top)
                             );
                         }
                         case Rotation.Half:
                         {
                             return this.EdgesMatch(
-                                placement.TilePlacement.GetFeaturesAt(Edge.Top),
-                                action.Placement.GetFeaturesAt(Edge.Bottom)
+                                placement.Tile.GetEdge(Edge.Top),
+                                action.Tile.GetEdge(Edge.Bottom)
                             );
                         }
                         case Rotation.ThreeQuarter:
                         {
                             return this.EdgesMatch(
-                                placement.TilePlacement.GetFeaturesAt(Edge.Right),
-                                action.Placement.GetFeaturesAt(Edge.Left)
+                                placement.Tile.GetEdge(Edge.Right),
+                                action.Tile.GetEdge(Edge.Left)
                             );
                         }
                         case Rotation.Quarter:
                         {
                             return this.EdgesMatch(
-                                placement.TilePlacement.GetFeaturesAt(Edge.Left),
-                                action.Placement.GetFeaturesAt(Edge.Right)
+                                placement.Tile.GetEdge(Edge.Left),
+                                action.Tile.GetEdge(Edge.Right)
                             );
                         }
 

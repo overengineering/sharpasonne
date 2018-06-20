@@ -13,24 +13,20 @@ namespace Sharpasonne.Tests
         protected PlaceTileGameAction MakePlaceTile(
             int x,
             int y,
-            Tile tile = null,
-            Rotation rotation = Rotation.None)
+            Tile tile = null)
         {
             tile = tile ?? new TileBuilder()
                 .CreateTile()
                 .ValueOrFailure();
 
-            return new PlaceTileGameAction(
-                new Point(x, y),
-                new TilePlacement(tile, rotation)
-            );
+            return new PlaceTileGameAction(new Point(x, y), tile);
         }
 
         protected Board MakeBoard(params PlaceTileGameAction[] actions)
         {
             return new Board(actions.ToDictionary(
                 a => a.Point,
-                a => new Placement(a.Placement)
+                a => new Placement(a.Tile)
             ));
         }
 

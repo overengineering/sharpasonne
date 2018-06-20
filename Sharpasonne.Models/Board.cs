@@ -36,12 +36,11 @@ namespace Sharpasonne.Models
         /// create a new one.
         /// </summary>
         /// <param name="point">Where to place the tile on the board.</param>
-        /// <param name="rotation">How is the tile orientated.</param>
         /// <returns>The new board.</returns>
         [NotNull]
-        public Board Set([NotNull] Tile tile, Point point, Rotation rotation)
+        public Board Set([NotNull] Tile tile, Point point)
         {
-            var placement = new Placement(new TilePlacement(tile, rotation));
+            var placement = new Placement(tile);
 
             // TODO: change this to a try add and return an Option.
             var grid = this.Grid.Add(point, placement);
