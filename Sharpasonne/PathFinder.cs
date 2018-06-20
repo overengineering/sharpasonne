@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Numerics;
 using Optional;
 using Optional.Unsafe;
 using Sharpasonne.Models;
@@ -31,7 +32,7 @@ namespace Sharpasonne
 
         // TODO: We need to find the features by segment for each feature and edge.
         private Dictionary<IFeature, Tile> FindFeatureTilesRecursevely(
-            Dictionary<IFeature, Tile> featureTile,
+            Dictionary<IFeature, Tile> acc,
             Point                      point,
             Board                      board,
             IFeature                   feature)
@@ -40,15 +41,15 @@ namespace Sharpasonne
 
             // If recursion has already been on this feature or no tile at this
             // point return the dictionary...
-            if (featureTile.ContainsKey(feature) || !optionalPlacement.HasValue)
+            if (acc.ContainsKey(feature) || !optionalPlacement.HasValue)
             {
-                return featureTile;
+                return acc;
             }
 
             var placement = optionalPlacement.ValueOrFailure();
 
             // ...otherwise add self and recurse with the adjecent tiles.
-            featureTile.Add(feature, placement.TilePlacement.Tile);
+            acc.Add(feature, placement.Tile);
             
             //feature.Connections.
             //var normalisedTile = new TileBuilder()
@@ -58,7 +59,18 @@ namespace Sharpasonne
             //    feature1.Connections = feature1.Connections.Select(c => c.rota)
             //}
 
-            var possibleNeighbours = board.GetAdjecentPointsAndPlacements(point);
+            var segments = feature.Connections;
+            // TODO: Extract segments to constants.
+            var topFeatureSegments = segments.Intersect(new Segment[] {Segment.TopLeft, Segment.Top, Segment.TopRight});
+            if (topFeatureSegments.Any())
+            {
+                // TODO: Point utility funcs.
+                var pointAbove = new Point(point.X, point.Y + 1);
+                FindFeatureTile(acc, board, pointAbove, topFeatureSegments, Edge.Bottom);
+            }
+
+
+            /*var possibleNeighbours = board.GetAdjecentPointsAndPlacements(point);
             var neighbours = possibleNeighbours
                 .Where(at => at.Value.HasValue)
                 .Select(at => new {
@@ -73,13 +85,30 @@ namespace Sharpasonne
 
                 FindFeatureTilesRecursevely(
                     // TODO: extract what on the adjecentFeatureMatchRule gives the matching edges.
-                    featureTile,
+                    acc,
                     neighbour.Point,
                     board,
-                    neighbour.Placement.TilePlacement.Tile.Features.First());
-            }
+                    neighbour.Placement.Tile.Features.First());
+            }*/
 
-            return featureTile;
+            return acc;
+        }
+
+        private void FindFeatureTile(Dictionary<IFeature, Tile> acc, Board board, Point point, IImmutableSet<Segment> featureSegments, Edge edge)
+        {
+            var tilePlacementOpt = board.Get(point);
+            tilePlacementOpt.MatchSome(placement =>
+            {
+                var features = placement.Tile.GetEdge(edge);
+                var matchingFeatures = featureSegments
+                    .Select(s => SegmentExtensions.AdjacentSegments[s])
+                    .Select(s => features.FirstOrDefault(f => f.Connections.Contains(s)))
+                    .Distinct();
+                foreach (var matchingFeature in matchingFeatures)
+                {
+                    FindFeatureTilesRecursevely(acc, point, board, matchingFeature);
+                }
+            });
         }
     }
 }
