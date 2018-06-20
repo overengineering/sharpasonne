@@ -22,7 +22,7 @@ namespace Sharpasonne.Models
         LeftTop,
     }
 
-    public static class SegmentExtensions
+    public static class SegmentConstants
     {
         public static IImmutableDictionary<Segment, Segment> AdjacentSegments =
             new Dictionary<Segment, Segment>
@@ -39,6 +39,18 @@ namespace Sharpasonne.Models
                 [Segment.LeftBottom]  = Segment.RightBottom,
                 [Segment.Left]        = Segment.Right,
                 [Segment.LeftTop]     = Segment.RightTop,
-            }.ToImmutableDictionary();
+            }
+                .ToImmutableDictionary();
+
+        public static ImmutableDictionary<Edge, IImmutableList<Segment>> SegmentEdges =
+            new Dictionary<Edge, IImmutableList<Segment>>
+            {
+                [Edge.Top]    = ImmutableList.Create(Segment.TopLeft,     Segment.Top,    Segment.TopRight),
+                [Edge.Right]  = ImmutableList.Create(Segment.RightBottom, Segment.Right,  Segment.RightTop),
+                [Edge.Bottom] = ImmutableList.Create(Segment.BottomLeft,  Segment.Bottom, Segment.BottomRight),
+                [Edge.Left]   = ImmutableList.Create(Segment.LeftTop,     Segment.Left,   Segment.LeftBottom),
+            }
+                .ToImmutableDictionary();
+
     }
 }

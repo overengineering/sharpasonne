@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Sharpasonne
             var placementOption = board.Get(point);
             var findFeatureTiles = placementOption.Match(placement =>
                 {
-                    var featureTiles = FindFeatureTilesRecursevely(
+                    var featureTiles = FindFeatureTilesRecursively(
                         new Dictionary<IFeature, Tile>(),
                         point,
                         board,
@@ -31,7 +32,7 @@ namespace Sharpasonne
         }
 
         // TODO: We need to find the features by segment for each feature and edge.
-        private Dictionary<IFeature, Tile> FindFeatureTilesRecursevely(
+        private Dictionary<IFeature, Tile> FindFeatureTilesRecursively(
             Dictionary<IFeature, Tile> acc,
             Point                      point,
             Board                      board,
@@ -51,64 +52,40 @@ namespace Sharpasonne
             // ...otherwise add self and recurse with the adjecent tiles.
             acc.Add(feature, placement.Tile);
             
-            //feature.Connections.
-            //var normalisedTile = new TileBuilder()
-            //    .CreateTile(placement.TilePlacement.Tile.Features.ToArray());
-            //foreach (var feature1 in normalisedTile.ValueOrFailure().Features)
-            //{
-            //    feature1.Connections = feature1.Connections.Select(c => c.rota)
-            //}
-
-            var segments = feature.Connections;
-            // TODO: Extract segments to constants.
-            var topFeatureSegments = segments.Intersect(new Segment[] {Segment.TopLeft, Segment.Top, Segment.TopRight});
-            if (topFeatureSegments.Any())
+            // Add features from neighbouring tile on a specified edge.
+            void FindFeatureTilesByEdge(
+                Point     nextPoint,
+                Edge      nextEdge)
             {
-                // TODO: Point utility funcs.
-                var pointAbove = new Point(point.X, point.Y + 1);
-                FindFeatureTile(acc, board, pointAbove, topFeatureSegments, Edge.Bottom);
+                var edgeSegments =
+                    SegmentConstants.SegmentEdges[nextEdge.RotateClockwise(Rotation.Half)];
+
+                var featureSegments = feature.Connections.Intersect(edgeSegments);
+                if (featureSegments.Any())
+                {
+                    var tilePlacementOpt = board.Get(nextPoint);
+                    tilePlacementOpt.MatchSome(p =>
+                    {
+                        var features = p.Tile.GetEdge(nextEdge);
+                        var matchingFeatures = featureSegments
+                            .Select(s => SegmentConstants.AdjacentSegments[s])
+                            .Select(s => features.FirstOrDefault(f => f.Connections.Contains(s)))
+                            .Distinct();
+                        foreach (var matchingFeature in matchingFeatures)
+                        {
+                            FindFeatureTilesRecursively(acc, nextPoint, board, matchingFeature);
+                        }
+                    });
+                }
             }
 
-
-            /*var possibleNeighbours = board.GetAdjecentPointsAndPlacements(point);
-            var neighbours = possibleNeighbours
-                .Where(at => at.Value.HasValue)
-                .Select(at => new {
-                    Point = at.Key,
-                    Placement  = at.Value.ValueOrFailure(),
-                });
-
-            foreach (var neighbour in neighbours)
-            {
-                //tile.Tile.TilePlacement.GetFeaturesAt()
-                //var segment = feature.Connections.
-
-                FindFeatureTilesRecursevely(
-                    // TODO: extract what on the adjecentFeatureMatchRule gives the matching edges.
-                    acc,
-                    neighbour.Point,
-                    board,
-                    neighbour.Placement.Tile.Features.First());
-            }*/
+            // TODO: Point utility funcs.
+            FindFeatureTilesByEdge(new Point(point.X,     point.Y + 1), Edge.Bottom);
+            FindFeatureTilesByEdge(new Point(point.X + 1, point.Y),     Edge.Left);
+            FindFeatureTilesByEdge(new Point(point.X,     point.Y - 1), Edge.Top);
+            FindFeatureTilesByEdge(new Point(point.X - 1, point.Y),     Edge.Right);
 
             return acc;
-        }
-
-        private void FindFeatureTile(Dictionary<IFeature, Tile> acc, Board board, Point point, IImmutableSet<Segment> featureSegments, Edge edge)
-        {
-            var tilePlacementOpt = board.Get(point);
-            tilePlacementOpt.MatchSome(placement =>
-            {
-                var features = placement.Tile.GetEdge(edge);
-                var matchingFeatures = featureSegments
-                    .Select(s => SegmentExtensions.AdjacentSegments[s])
-                    .Select(s => features.FirstOrDefault(f => f.Connections.Contains(s)))
-                    .Distinct();
-                foreach (var matchingFeature in matchingFeatures)
-                {
-                    FindFeatureTilesRecursevely(acc, point, board, matchingFeature);
-                }
-            });
         }
     }
 }

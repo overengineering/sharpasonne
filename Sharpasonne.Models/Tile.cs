@@ -24,11 +24,11 @@ namespace Sharpasonne.Models
         public IFeature[] GetEdge(Edge edge)
         {
             var segments = this.GetSegments(edge);
-            var features = segments.Select(segment =>
-                this.Features.First(feature =>
-                    feature.Connections.Contains(segment)
-                )
-            );
+            var features = segments
+                .Select(segment =>
+                    this.Features.FirstOrDefault(feature =>
+                        feature.Connections.Contains(segment)))
+                .Where(feature => feature != null);
 
             return features.ToArray();
         }
