@@ -9,19 +9,21 @@ namespace Sharpasonne.Models
     /// </summary>
     public class Placement
     {
-        [NotNull] public TilePlacement           TilePlacement   { get; }
+        [NotNull] public Tile           Tile   { get; }
                   public Option<MeeplePlacement> MeeplePlacement { get; }
 
-        public Placement([NotNull] TilePlacement tilePlacement)
+        public Placement([NotNull] Tile tile)
         {
-            TilePlacement   = tilePlacement;
-            MeeplePlacement = Option.None<MeeplePlacement>();
+            this.Tile = tile;
+            this.MeeplePlacement = Option.None<MeeplePlacement>();
         }
 
-        public Placement([NotNull] TilePlacement tilePlacement, [NotNull] MeeplePlacement meeplePlacement)
+        public Placement(
+            [NotNull] Tile tile,
+            [NotNull] MeeplePlacement meeplePlacement)
         {
-            TilePlacement   = tilePlacement;
-            MeeplePlacement = Option.Some(meeplePlacement);
+            this.Tile = tile;
+            this.MeeplePlacement = Option.Some(meeplePlacement);
         }
     }
 }

@@ -128,20 +128,34 @@ namespace Sharpasonne.Tests.Rules
         }
 
         [Fact]
-        public void Given_OneRotatedNeighbour_When_FeaturesMatch_Then_True()
+        public void Given_TwoNeighbours_When_FeaturesMatch_Then_True()
         {
-            var leftTile = new TileBuilder()
+            var topTile = new TileBuilder()
                 .CreateTile(new IFeature[]
                 {
                     new Field(ImmutableHashSet.Create(
-                        Segment.RightTop,
-                        Segment.Right,
-                        Segment.RightBottom
+                        Segment.BottomRight,
+                        Segment.Bottom,
+                        Segment.BottomLeft
                     )),
                 })
                 .ValueOrFailure();
 
-            var rightTile = new TileBuilder()
+            var centreTile = new TileBuilder()
+                .CreateTile(new[]
+                {
+                    new Field(ImmutableHashSet.Create(
+                        Segment.BottomLeft,
+                        Segment.Bottom,
+                        Segment.BottomRight,
+                        Segment.TopLeft,
+                        Segment.Top,
+                        Segment.TopRight
+                    )),
+                })
+                .ValueOrFailure();
+
+            var bottomTile = new TileBuilder()
                 .CreateTile(new[]
                 {
                     new Field(ImmutableHashSet.Create(
@@ -152,56 +166,9 @@ namespace Sharpasonne.Tests.Rules
                 })
                 .ValueOrFailure();
 
-            var leftAction  = MakePlaceTile(0, 0, leftTile,  Rotation.None);
-            var rightAction = MakePlaceTile(1, 0, rightTile, Rotation.ThreeQuarter);
-            var board       = MakeBoard(leftAction);
-            var engine      = MockEngine(board);
-
-            AssertTrue<AdjacentFeaturesMatchRule>(engine, rightAction);
-        }
-
-        [Fact]
-        public void Given_TwoRotatedNeighbours_When_FeaturesMatch_Then_True()
-        {
-            var topTile = new TileBuilder()
-                .CreateTile(new IFeature[]
-                {
-                    new Field(ImmutableHashSet.Create(
-                        Segment.RightTop,
-                        Segment.Right,
-                        Segment.RightBottom
-                    )),
-                })
-                .ValueOrFailure();
-
-            var centreTile = new TileBuilder()
-                .CreateTile(new[]
-                {
-                    new Field(ImmutableHashSet.Create(
-                        Segment.TopLeft,
-                        Segment.Top,
-                        Segment.TopRight,
-                        Segment.BottomLeft,
-                        Segment.Bottom,
-                        Segment.BottomRight
-                    )),
-                })
-                .ValueOrFailure();
-
-            var bottomTile = new TileBuilder()
-                .CreateTile(new[]
-                {
-                    new Field(ImmutableHashSet.Create(
-                        Segment.RightTop,
-                        Segment.Right,
-                        Segment.RightBottom
-                    )),
-                })
-                .ValueOrFailure();
-
-            var topAction    = MakePlaceTile(0, 1, topTile,    Rotation.Quarter);
-            var centreAction = MakePlaceTile(0, 0,  centreTile, Rotation.Half);
-            var bottomAction = MakePlaceTile(0, -1,  bottomTile, Rotation.ThreeQuarter);
+            var topAction    = MakePlaceTile(0, 1, topTile);
+            var centreAction = MakePlaceTile(0, 0,  centreTile);
+            var bottomAction = MakePlaceTile(0, -1,  bottomTile);
             var board        = MakeBoard(topAction, bottomAction);
             var engine       = MockEngine(board);
 
