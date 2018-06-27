@@ -52,38 +52,47 @@ namespace Sharpasonne
             // ...otherwise add self and recurse with the adjecent tiles.
             acc.Add(feature, placement.Tile);
             
-            // Add features from neighbouring tile on a specified edge.
-            void FindFeatureTilesByEdge(
-                Point     nextPoint,
-                Edge      nextEdge)
-            {
-                var edgeSegments =
-                    SegmentConstants.SegmentEdges[nextEdge.RotateClockwise(Rotation.Half)];
+            // TODO: Point utility funcs.
+            acc = FindFeatureTilesByEdge(acc, board, feature, new Point(point.X,     point.Y + 1), Edge.Bottom);
+            acc = FindFeatureTilesByEdge(acc, board, feature, new Point(point.X + 1, point.Y),     Edge.Left);
+            acc = FindFeatureTilesByEdge(acc, board, feature, new Point(point.X,     point.Y - 1), Edge.Top);
+            acc = FindFeatureTilesByEdge(acc, board, feature, new Point(point.X - 1, point.Y),     Edge.Right);
 
-                var featureSegments = feature.Connections.Intersect(edgeSegments);
-                if (featureSegments.Any())
-                {
-                    var tilePlacementOpt = board.Get(nextPoint);
-                    tilePlacementOpt.MatchSome(p =>
-                    {
-                        var features = p.Tile.GetEdge(nextEdge);
-                        var matchingFeatures = featureSegments
-                            .Select(s => SegmentConstants.AdjacentSegments[s])
-                            .Select(s => features.FirstOrDefault(f => f.Connections.Contains(s)))
-                            .Distinct();
-                        foreach (var matchingFeature in matchingFeatures)
-                        {
-                            FindFeatureTilesRecursively(acc, nextPoint, board, matchingFeature);
-                        }
-                    });
-                }
+            return acc;
+        }
+
+        /// <summary>
+        /// Add features from neighbouring tile on a specified edge.
+        /// </summary>
+        private Dictionary<IFeature, Tile> FindFeatureTilesByEdge(
+            Dictionary<IFeature, Tile> acc,
+            Board board,
+            IFeature feature,
+            Point nextPoint,
+            Edge nextEdge)
+        {
+            var edgeSegments =
+                SegmentConstants.SegmentEdges[nextEdge.RotateClockwise(Rotation.Half)];
+
+            var featureSegments = feature.Connections.Intersect(edgeSegments);
+            if (!featureSegments.Any())
+            {
+                return acc;
             }
 
-            // TODO: Point utility funcs.
-            FindFeatureTilesByEdge(new Point(point.X,     point.Y + 1), Edge.Bottom);
-            FindFeatureTilesByEdge(new Point(point.X + 1, point.Y),     Edge.Left);
-            FindFeatureTilesByEdge(new Point(point.X,     point.Y - 1), Edge.Top);
-            FindFeatureTilesByEdge(new Point(point.X - 1, point.Y),     Edge.Right);
+            var tilePlacementOpt = board.Get(nextPoint);
+            tilePlacementOpt.MatchSome(p =>
+            {
+                var features = p.Tile.GetEdge(nextEdge);
+                var matchingFeatures = featureSegments
+                    .Select(s => SegmentConstants.AdjacentSegments[s])
+                    .Select(s => features.FirstOrDefault(f => f.Connections.Contains(s)))
+                    .Distinct();
+                foreach (var matchingFeature in matchingFeatures)
+                {
+                    FindFeatureTilesRecursively(acc, nextPoint, board, matchingFeature);
+                }
+            });
 
             return acc;
         }
