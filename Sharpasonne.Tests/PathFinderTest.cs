@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -152,15 +153,15 @@ namespace Sharpasonne.Tests
                 .ValueOrFailure();
 
             // When
-            var placeLeftTileGameAction = MakePlaceTile(0, 0, leftTile);
+            var placeLeftTileGameAction  = MakePlaceTile(0, 0, leftTile);
             var placeRightTileGameAction = MakePlaceTile(1, 0, rightTile);
 
             var board = MakeBoard(placeLeftTileGameAction, placeRightTileGameAction);
 
             var featureTiles = pathFinder.FindFeatureTiles(
-                placeLeftTileGameAction.Point,
-                board,
-                leftTile.Features.FirstOrDefault())
+                    placeLeftTileGameAction.Point,
+                    board,
+                    leftTile.Features.FirstOrDefault())
                 .ValueOrFailure();
 
             // Then
@@ -168,9 +169,88 @@ namespace Sharpasonne.Tests
             {
                 { leftTile.Features.First(), leftTile},
                 { rightTile.Features.First(), rightTile},
-                { rightTile.Features.ElementAt(1), rightTile},
+                { rightTile.Features.Last(), rightTile},
             };
             Assert.Equal(expectedFeatureTiles, featureTiles);
+        }
+
+        [Fact]
+        public void FindFeatureTiles_Given_ALoopWithinThreeTiles_FourFeaturesAndThreeTilesAreReturned()
+        {
+            var pathFinder = new PathFinder();
+
+            var leftTile = new TileBuilder()
+                .CreateTile(new City(RightBottom, RightTop))
+                .ValueOrFailure();
+            var middleTile = new TileBuilder()
+                .CreateTile(new City(LeftBottom, RightBottom), new City(LeftTop, RightTop))
+                .ValueOrFailure();
+            var rightTile = new TileBuilder()
+                .CreateTile(new City(LeftBottom, LeftTop))
+                .ValueOrFailure();
+
+            // When
+            var placeLeftTileGameAction   = MakePlaceTile(-1, 0, leftTile);
+            var placeMiddleTileGameAction = MakePlaceTile(0,  0, middleTile);
+            var placeRightTileGameAction  = MakePlaceTile(1,  0, rightTile);
+
+            var board = MakeBoard(
+                placeLeftTileGameAction,
+                placeMiddleTileGameAction,
+                placeRightTileGameAction);
+
+            var featureTiles = pathFinder.FindFeatureTiles(
+                    placeLeftTileGameAction.Point,
+                    board,
+                    leftTile.Features.FirstOrDefault())
+                .ValueOrFailure();
+
+            // Then
+            var expectedFeatureTiles = new Dictionary<IFeature, Tile>
+            {
+                { leftTile.Features.First(), leftTile},
+                { middleTile.Features.First(), middleTile},
+                { middleTile.Features.Last(), middleTile},
+                { rightTile.Features.First(), rightTile},
+            };
+            Assert.Equal(expectedFeatureTiles, featureTiles);
+        }
+
+        [Fact]
+        public void FindFeatureTiles_Given_ALoopWithinThreeTiles_DoesNotThrowStackOverflow()
+        {
+            var pathFinder = new PathFinder();
+
+            var leftTile = new TileBuilder()
+                .CreateTile(new City(RightBottom, RightTop))
+                .ValueOrFailure();
+            var middleTile = new TileBuilder()
+                .CreateTile(new City(LeftBottom, RightBottom), new City(LeftTop, RightTop))
+                .ValueOrFailure();
+            var rightTile = new TileBuilder()
+                .CreateTile(new City(LeftBottom, LeftTop))
+                .ValueOrFailure();
+
+            // When
+            var placeLeftTileGameAction   = MakePlaceTile(-1, 0, leftTile);
+            var placeMiddleTileGameAction = MakePlaceTile(0,  0, middleTile);
+            var placeRightTileGameAction  = MakePlaceTile(1,  0, rightTile);
+
+            var board = MakeBoard(
+                placeLeftTileGameAction,
+                placeMiddleTileGameAction,
+                placeRightTileGameAction);
+
+            // Then
+            var exception = Record.Exception(() =>
+            {
+                pathFinder.FindFeatureTiles(
+                    placeLeftTileGameAction.Point,
+                    board,
+                    leftTile.Features.FirstOrDefault());
+            });
+
+            Assert.False(exception is StackOverflowException);
         }
     }
 }
