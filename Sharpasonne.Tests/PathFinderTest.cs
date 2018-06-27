@@ -1,14 +1,11 @@
 using System.Collections.Generic;
-using Sharpasonne.GameActions;
-using Sharpasonne.Models;
-using Sharpasonne.Models.Features;
-using Sharpasonne.Rules;
-using Xunit;
 using System.Collections.Immutable;
 using System.Linq;
-using Moq;
 using Optional.Unsafe;
-using Xunit.Sdk;
+using Sharpasonne.Models;
+using Sharpasonne.Models.Features;
+using Xunit;
+using static Sharpasonne.Models.Segment;
 
 namespace Sharpasonne.Tests
 {
@@ -20,24 +17,18 @@ namespace Sharpasonne.Tests
             //Given
             var pathFinder = new PathFinder();
             var topTileCity = new City(ImmutableHashSet.Create(
-                        Segment.Bottom
+                        Bottom
                     ),
                     hasShield: false);
             var aboveTile = new TileBuilder()
-                .CreateTile(new []
-                {
-                    topTileCity,
-                })
+                .CreateTile(topTileCity)
                 .ValueOrFailure();
 
             var belowTile = new TileBuilder()
-                .CreateTile(new []
-                {
-                    new City(ImmutableHashSet.Create(
-                        Segment.Top
+                .CreateTile(new City(ImmutableHashSet.Create(
+                        Top
                     ),
-                    hasShield: false),
-                })
+                    hasShield: false))
                 .ValueOrFailure();
 
             var aboveAction = MakePlaceTile(0, 1, aboveTile);
@@ -59,18 +50,15 @@ namespace Sharpasonne.Tests
         {
             var pathFinder = new PathFinder();
             var topTileCity = new City(ImmutableHashSet.Create(
-                        Segment.Top
+                        Top
                     ),
                     hasShield: false);
 
             var tile = new TileBuilder()
-                .CreateTile(new []
-                {
-                    new City(ImmutableHashSet.Create(
-                        Segment.Top
+                .CreateTile(new City(ImmutableHashSet.Create(
+                        Top
                     ),
-                    hasShield: false),
-                })
+                    hasShield: false))
                 .ValueOrFailure();
             
             var placeTileGameAction = MakePlaceTile(0, 0, tile);
@@ -93,12 +81,12 @@ namespace Sharpasonne.Tests
 
             var topTile = new TileBuilder()
                 .CreateTile(
-                    new City(connections: Segment.Top))
+                    new City(connections: Top))
                 .ValueOrFailure();
 
             var bottomTile = new TileBuilder()
                 .CreateTile(
-                    new City(connections: Segment.Bottom))
+                    new City(connections: Bottom))
                 .ValueOrFailure();
 
             var placeTopTileGameAction = MakePlaceTile(0, 0, topTile);
@@ -115,25 +103,21 @@ namespace Sharpasonne.Tests
             Assert.Equal(1, cityTiles.ValueOrFailure().Count);
         }
 
-/*
         [Fact]
-        public void FindFeaturesTiles_Given_TwoConnectedAndOneDisconnectedTileCities_thenReturnsTwoTiles()
+        public void FindFeaturesTiles_Given_TwoConnectedAndOneDisconnectedTileCities_Then_ReturnsTwoTiles()
         {
             var pathFinder = new PathFinder();
 
             var topTile = new TileBuilder()
-                .CreateTile(
-                    new City(connections: Segment.Top))
+                .CreateTile(new City(connections: Top))
                 .ValueOrFailure();
 
             var middleTile = new TileBuilder()
-                .CreateTile(
-                    new City(connections: Segment.Bottom))
+                .CreateTile(new City(connections: Bottom))
                 .ValueOrFailure();
 
             var bottomTile = new TileBuilder()
-                .CreateTile(
-                    new City(connections: Segment.Top))
+                .CreateTile(new City(connections: Top))
                 .ValueOrFailure();
 
             var placeTopTileGameAction    = MakePlaceTile(0, 1,  topTile);
@@ -154,6 +138,39 @@ namespace Sharpasonne.Tests
             //Then
             Assert.Equal(2, cityTiles.ValueOrFailure().Count);
         }
-*/
+
+        [Fact]
+        public void FindFeatureTiles_Given_FeatureSplittingInTwo_ThreeFeaturesAndTwoTilesAreReturned()
+        {
+            var pathFinder = new PathFinder();
+
+            var leftTile = new TileBuilder()
+                .CreateTile(new City(RightBottom, RightTop))
+                .ValueOrFailure();
+            var rightTile = new TileBuilder()
+                .CreateTile(new City(LeftBottom), new City(LeftTop))
+                .ValueOrFailure();
+
+            // When
+            var placeLeftTileGameAction = MakePlaceTile(0, 0, leftTile);
+            var placeRightTileGameAction = MakePlaceTile(1, 0, rightTile);
+
+            var board = MakeBoard(placeLeftTileGameAction, placeRightTileGameAction);
+
+            var featureTiles = pathFinder.FindFeatureTiles(
+                placeLeftTileGameAction.Point,
+                board,
+                leftTile.Features.FirstOrDefault())
+                .ValueOrFailure();
+
+            // Then
+            var expectedFeatureTiles = new Dictionary<IFeature, Tile>
+            {
+                { leftTile.Features.First(), leftTile},
+                { rightTile.Features.First(), rightTile},
+                { rightTile.Features.ElementAt(1), rightTile},
+            };
+            Assert.Equal(expectedFeatureTiles, featureTiles);
+        }
     }
 }

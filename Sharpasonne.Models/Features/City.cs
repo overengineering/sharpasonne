@@ -16,11 +16,11 @@ namespace Sharpasonne.Models.Features
         public City([NotNull] IEnumerable<Segment> connections, bool hasShield)
         {
             Connections = connections.ToImmutableHashSet();
-            HasShield   = hasShield;
+            HasShield = hasShield;
         }
 
-        public City(bool hasShield = false, [NotNull] params Segment[] connections)
-        :this (connections.AsEnumerable(), hasShield)
+        public City([NotNull] params Segment[] connections)
+            : this(connections.AsEnumerable(), false)
         {
         }
     }
