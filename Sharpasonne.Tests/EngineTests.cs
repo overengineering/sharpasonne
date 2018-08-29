@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Sharpasonne.Tests
 {
-    public class EngineTests : UnitTest<PlaceTileGameAction>
+    public class EngineTests : UnitTest
     {
         class DummyRule : IRule<IGameAction>
         {

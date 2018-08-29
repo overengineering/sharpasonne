@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Sharpasonne.Tests
 {
-    public class PlayersTests : UnitTest<PlaceTileGameAction>
+    public class PlayersTests : UnitTest
     {
         [Fact]
         public void Given_ZeroPlayers_When_CreatingPlayers_Then_NoneIsArgumentOutOfRangeException()

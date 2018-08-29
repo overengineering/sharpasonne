@@ -9,7 +9,7 @@ namespace Sharpasonne.Models.Tests
         void When_CreatingEmptyTile_Then_ReturnsSome()
         {
             var maybeTile = new TileBuilder()
-                .CreateTile(Enumerable.Empty<IFeature>());
+                .CreateTile();
 
             Assert.True(maybeTile.HasValue);
         }

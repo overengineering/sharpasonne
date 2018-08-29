@@ -1,4 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using JetBrains.Annotations;
 
 namespace Sharpasonne.Models.Features
@@ -11,10 +13,15 @@ namespace Sharpasonne.Models.Features
 
         public bool HasShield { get; }
 
-        public City([NotNull] IImmutableSet<Segment> connections, bool hasShield)
+        public City([NotNull] IEnumerable<Segment> connections, bool hasShield)
         {
-            Connections = connections;
+            Connections = connections.ToImmutableHashSet();
             HasShield = hasShield;
+        }
+
+        public City([NotNull] params Segment[] connections)
+            : this(connections.AsEnumerable(), false)
+        {
         }
     }
 }

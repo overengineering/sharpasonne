@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using Optional;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using System.Linq;
 
 namespace Sharpasonne.Models
 {
@@ -62,6 +63,21 @@ namespace Sharpasonne.Models
             }.ToImmutableDictionary();
 
             return adjecentTiles;
+        }
+
+        public IImmutableDictionary<Point, Option<Placement>> GetAdjecentPointsAndPlacements(Point point)
+        {
+            var adjecentPoints = new List<Point>
+            {
+                new Point(point.X, point.Y + 1),
+                new Point(point.X + 1, point.Y),
+                new Point(point.X, point.Y - 1),
+                new Point(point.X - 1, point.Y),
+            };
+            var adjecentPointsAndPlacements = adjecentPoints
+                .ToImmutableDictionary(p => p, p => Get(p));
+
+            return adjecentPointsAndPlacements;
         }
     }
 }

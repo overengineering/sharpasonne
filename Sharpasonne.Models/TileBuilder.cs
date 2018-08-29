@@ -12,9 +12,9 @@ namespace Sharpasonne.Models
         /// Attempts to create a tile with the given features. Will only
         /// succeed if the resultant tile is valid.
         /// </summary>
-        public Option<Tile> CreateTile([NotNull] IEnumerable<IFeature> features)
+        public Option<Tile> CreateTile([NotNull] params IFeature[] features)
         {
-            var featureList = features as IImmutableList<IFeature> ?? features.ToImmutableList();
+            var featureList = features.ToImmutableList();
 
             if (new FeatureListValidator().IsValid(featureList))
             {
